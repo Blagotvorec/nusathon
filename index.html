@@ -1,17 +1,21 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>NUSATHON — build sprints for timber, furniture and modular housing in Indonesia</title>
-<meta name="description" content="A platform where interior and exterior designers, architects, makers and developers meet for short, intense build sprints — Mebelthon, Modulthon, Rekathon — and crowdfund the winning ideas into production in Indonesia.">
+<title>NUSATHON — оператор CLT-панелей и хакатоны для тех, кто строит из дерева</title>
+<meta name="description" content="Портал о CLT в Индонезии: материал, производство и брифы для дизайнеров, проектных бюро, мебельщиков и предпринимателей. Хакатоны Mebelthon, Modulthon, Rekathon и Printthon — от замысла до готового изделия за выходные.">
 <link rel="canonical" href="https://nusathon.com/">
+<link rel="alternate" hreflang="ru" href="https://nusathon.com/">
+<link rel="alternate" hreflang="en" href="https://nusathon.com/en/">
+<link rel="alternate" hreflang="x-default" href="https://nusathon.com/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="NUSATHON — build sprints for timber, furniture and modular housing in Indonesia">
-<meta property="og:description" content="Challenge, expo, collaboration, study and crowdfunding, in one house. Second in the chain about CLT in Indonesia.">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="NUSATHON — оператор CLT-панелей и хакатоны для тех, кто строит из дерева">
+<meta property="og:description" content="С каждого сообщества — один гений. Материал, производство и брифы для тех, кто хочет строить из индонезийского дерева.">
 <meta property="og:url" content="https://nusathon.com/">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%231a1712'/%3E%3Cpath d='M8 22V10l8 12V10' fill='none' stroke='%23b07d4e' stroke-width='2.4'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230e0d0b'/%3E%3Cg fill='%23c69a65'%3E%3Crect x='0' y='19' width='15' height='22'/%3E%3Crect x='45' y='19' width='55' height='22'/%3E%3Crect x='0' y='59' width='55' height='22'/%3E%3Crect x='85' y='59' width='15' height='22'/%3E%3Crect x='19' y='0' width='22' height='55'/%3E%3Crect x='19' y='85' width='22' height='15'/%3E%3Crect x='59' y='0' width='22' height='15'/%3E%3Crect x='59' y='45' width='22' height='55'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter+Tight:wght@200;300;400&display=swap">
@@ -22,7 +26,8 @@
   "@type": "Organization",
   "name": "NUSATHON",
   "url": "https://nusathon.com/",
-  "description": "Build sprints and a crowdfunding platform for timber, furniture and modular housing in Indonesia.",
+  "logo": "https://nusathon.com/assets/logo.svg",
+  "description": "Оператор CLT-панелей и организатор хакатонов по дереву, мебели, модульному жилью и 3D-печати в Индонезии.",
   "areaServed": { "@type": "Country", "name": "Indonesia" }
 }
 </script>
@@ -30,113 +35,152 @@
 <body>
 
 <header class="head wrap">
-  <a class="mark" href="./"><b>NUSATHON</b> <span>ID</span></a>
+  <a class="mark" href="./"><span class="mark__glyph" aria-hidden="true"></span><b>NUSATHON</b></a>
   <nav class="nav">
-    <a href="#program">Program</a>
-    <a href="#editions">Editions</a>
-    <a href="#journal">Journal</a>
-    <a href="#chain">About</a>
-    <a class="btn btn--solid" href="./apply.html">Apply</a>
+    <a href="#missiya">Миссия</a>
+    <a href="#material">Материал</a>
+    <a href="#hakatony">Хакатоны</a>
+    <a href="#lenta">Лента</a>
+    <span class="langs"><a href="./" aria-current="page">RU</a>&nbsp;/&nbsp;<a href="./en/">EN</a></span>
+    <a class="btn btn--solid" href="./apply.html">Присоединиться</a>
   </nav>
 </header>
 
 <main>
 
   <section class="hero wrap limit">
-    <span class="eyebrow">Second in the chain — after INCLT, on CLT in Indonesia</span>
-    <h1 class="hero__title"><span class="hero__cycle" data-cycle>MEBEL</span>THON</h1>
+    <span class="eyebrow">Оператор CLT-панелей · Индонезия</span>
+    <h1 class="hero__title">С каждого сообщества — <em>один гений</em>.</h1>
     <p class="hero__lede">
-      A hackathon for people who build rooms, not apps. Designers, architects,
-      makers, engineers and developers take one brief, one weekend and one
-      material — and leave with something that can actually be manufactured
-      in Indonesia.
+      Мы даём материал, производство и бриф. Вы приносите замысел — дом,
+      мебель, павильон, станок. За выходные он превращается в вещь, которую
+      можно потрогать, показать залу и запустить в серию. Так собирается
+      страна, которая строит из выращенного дерева, а не из выжженного цемента.
     </p>
     <div class="hero__acts">
-      <a class="btn btn--solid" href="./apply.html">Apply to take part</a>
-      <a class="btn btn--ghost" href="#program">How it works</a>
+      <a class="btn btn--solid" href="./apply.html">Подать заявку</a>
+      <a class="btn btn--ghost" href="#material">Что такое CLT</a>
     </div>
   </section>
 
-  <!-- Replace these four values before you publish. They are the only thing on
-       the page a returning visitor checks, so a stale date costs more here than
-       anywhere else on the site. -->
+  <!-- Четыре значения, которые проверяет вернувшийся посетитель. Дата дороже
+       всего остального на странице: устаревшая обесценивает и остальные три. -->
   <div class="wrap"><dl class="strip limit">
-    <div><dt>Next edition</dt><dd>Mebelthon 01</dd></div>
-    <div><dt>When</dt><dd>To be announced</dd></div>
-    <div><dt>Where</dt><dd>Bali, Indonesia</dd></div>
-    <div><dt>Applications</dt><dd class="live">Open</dd></div>
+    <div><dt>Ближайший хакатон</dt><dd>Mebelthon 01</dd></div>
+    <div><dt>Когда</dt><dd>Дата объявляется</dd></div>
+    <div><dt>Где</dt><dd>Бали, Индонезия</dd></div>
+    <div><dt>Заявки</dt><dd class="live">Открыты</dd></div>
   </dl></div>
 
-  <section class="sec wrap limit" id="program">
+  <section class="chain wrap limit" id="missiya">
+    <div>
+      <span class="eyebrow">Миссия</span>
+      <p class="chain__q">Дом, который держит углерод, вместо дома, который его выпустил.</p>
+    </div>
+    <div>
+      <p>
+        Индонезия умеет выращивать дерево быстрее почти кого угодно на земле:
+        сенгон выходит в дело за пять лет. Из него давно делают фанеру и
+        поддоны — и почти не делают домов, потому что для дома нужна не доска,
+        а панель, инженерный расчёт и производство, которое это соберёт.
+      </p>
+      <p>
+        Мы строим это недостающее звено. Материал, цех, инженер и бриф — с
+        нашей стороны. Талант, замысел и упрямство — с вашей. Каждый
+        построенный дом становится складом углерода, который дерево забрало из
+        воздуха, пока росло, — и одновременно домом, который не потребовал
+        печи для клинкера.
+      </p>
+      <p>
+        Это работа не на один проект и не на одну компанию. Нам нужен один
+        человек из каждого сообщества: тот, кто соберёт вокруг себя остальных.
+      </p>
+    </div>
+  </section>
+
+  <section class="sec wrap limit" id="material">
     <div class="sec__head">
-      <span class="eyebrow">The program</span>
-      <h2 class="sec__title">Five parts, one weekend, one house.</h2>
+      <span class="eyebrow">Материал</span>
+      <h2 class="sec__title">Что делает <em>CLT</em>, и что о нём говорят неправду.</h2>
       <p class="sec__note">
-        Each -thon runs the same five tracks. A team can enter through any one
-        of them, and most leave having touched all five.
+        CLT — это доски, склеенные слоями крест-накрест. Ровно то, что нарисовано
+        в нашем знаке: каждый следующий слой лежит поперёк предыдущего, и панель
+        от этого не ведёт и не крутит.
       </p>
     </div>
 
-    <div class="rules">
-      <article class="rule">
-        <span class="rule__n">01</span>
-        <h3 class="rule__name">Challenge</h3>
-        <p class="rule__body">
-          A single brief, written with a manufacturer who has agreed in advance
-          to build the winner. Teams get the real constraints — panel sizes,
-          tooling, budget, lead time — on day one, because a proposal that
-          ignores them is a drawing, not a product.
-        </p>
-      </article>
-      <article class="rule">
-        <span class="rule__n">02</span>
-        <h3 class="rule__name">Expo</h3>
-        <p class="rule__body">
-          Everything made during the sprint is shown at the end — built, not
-          rendered. Buyers, hotel and villa developers, and the press are in the
-          room. For most teams this is the first time their work is quoted by
-          someone who wants to order it.
-        </p>
-      </article>
-      <article class="rule">
-        <span class="rule__n">03</span>
-        <h3 class="rule__name">Collaborate</h3>
-        <p class="rule__body">
-          Teams are assembled across disciplines on purpose: an interior
-          designer, someone who can detail a joint, and someone who knows what
-          it costs. You may arrive with a team or arrive alone and be matched.
-        </p>
-      </article>
-      <article class="rule">
-        <span class="rule__n">04</span>
-        <h3 class="rule__name">Study</h3>
-        <p class="rule__body">
-          Two days of workshops running alongside the sprint — cross-laminated
-          timber, modular construction, local species and drying, joinery,
-          costing, and how to get a design through an Indonesian factory
-          without it changing beyond recognition.
-        </p>
-      </article>
-      <article class="rule">
-        <span class="rule__n">05</span>
-        <h3 class="rule__name">Crowdfund</h3>
-        <p class="rule__body">
-          The pieces the room votes for open for funding on this site. Anyone
-          can back one — a hundred people funding one prototype, or one
-          developer funding a full run. Backers get the object, the drawings,
-          or a share of the first production series.
-        </p>
-      </article>
+    <div class="figs">
+      <div class="fig">
+        <p class="fig__n">0,7–0,9<small>т CO₂e</small></p>
+        <p class="fig__t">хранит один кубометр CLT из хвойных пород — тот углерод, что дерево забрало из воздуха, пока росло.</p>
+      </div>
+      <div class="fig">
+        <p class="fig__n">~2<small>т CO₂</small></p>
+        <p class="fig__t">не выбрасывается, когда кубометр дерева встаёт на место бетона или стали. Это больше, чем хранит сама панель.</p>
+      </div>
+      <div class="fig">
+        <p class="fig__n">5<small>лет</small></p>
+        <p class="fig__t">оборот сенгона в Индонезии. Сенгон и джабон в исследованиях проходят европейский норматив расслоения EN 16351.</p>
+      </div>
+      <div class="fig">
+        <p class="fig__n">~45<small>%</small></p>
+        <p class="fig__t">открытого дерева в отделке — та доля, на которой в исследованиях лучше всего держатся внимание и реакция у людей в помещении.</p>
+      </div>
+    </div>
+
+    <p class="caveat">
+      Одно уточнение, без которого остальное превращается в гринвошинг:
+      <b>готовая панель не втягивает углекислый газ из воздуха.</b> Углерод
+      поглощает живое дерево на плантации, а панель его удерживает — столько
+      лет, сколько стоит дом. Поэтому в наших цифрах два разных числа:
+      сколько <i>хранится</i> и сколько <i>не выброшено</i> взамен бетона.
+      Второе больше первого, и именно оно — главный аргумент.
+    </p>
+  </section>
+
+  <section class="sec sec--tight wrap limit" id="galereya">
+    <div class="sec__head">
+      <span class="eyebrow">Вдохновение</span>
+      <h2 class="sec__title">Материал, снятый как материал.</h2>
+      <p class="sec__note">
+        Выставки, цеха, срезы панелей, объекты и арт-работы из того же CLT,
+        который мы предлагаем вам. Не рендеры.
+      </p>
+    </div>
+
+    <!-- Слоты под фотографии. Пока файла нет, рамка честно называет нужный
+         кадр: это лучше серого прямоугольника и несравнимо лучше стока.
+         Заменяется на <img src="./photo/....jpg" alt="..."> и всё. -->
+    <div class="shots">
+      <figure class="shot">
+        <div class="shot__slot"><span class="shot__cap">Стенд на строительной выставке</span></div>
+      </figure>
+      <figure class="shot">
+        <div class="shot__slot"><span class="shot__cap">Срез панели, макро</span></div>
+      </figure>
+      <figure class="shot">
+        <div class="shot__slot"><span class="shot__cap">Арт-объект из CLT</span></div>
+      </figure>
+      <figure class="shot">
+        <div class="shot__slot"><span class="shot__cap">Цех, раскрой на ЧПУ</span></div>
+      </figure>
+      <figure class="shot">
+        <div class="shot__slot"><span class="shot__cap">Готовый интерьер</span></div>
+      </figure>
+      <figure class="shot">
+        <div class="shot__slot"><span class="shot__cap">Команда на сборке</span></div>
+      </figure>
+      </figure>
     </div>
   </section>
 
-  <section class="sec wrap limit" id="editions">
+  <section class="sec wrap limit" id="hakatony">
     <div class="sec__head">
-      <span class="eyebrow">Editions</span>
-      <h2 class="sec__title">One house, several names.</h2>
+      <span class="eyebrow">Хакатоны</span>
+      <h2 class="sec__title">Одна крыша, разные <em>-тоны</em>.</h2>
       <p class="sec__note">
-        Every edition takes its name from what it builds. The format does not
-        change; the material and the brief do.
+        Формат не меняется: реальный бриф, настоящий материал, выходные, зал
+        с покупателями в конце. Меняется то, что делается.
       </p>
     </div>
 
@@ -144,134 +188,180 @@
       <article class="ed">
         <h3 class="ed__name"><em>Mebel</em>thon</h3>
         <p class="ed__body">
-          Furniture. Chairs, tables, storage and hotel-room fit-out in
-          Indonesian hardwood and engineered panel — designed on Friday,
-          prototyped by Sunday, quoted on the spot.
+          Мебель. Стулья, столы, хранение, оснащение номеров — из индонезийской
+          древесины и панели. Задумано в пятницу, собрано к воскресенью,
+          оценено в тот же вечер.
         </p>
         <div class="ed__foot">
-          <span class="state state--open">Applications open</span>
-          <a class="btn btn--ghost" href="./apply.html">Apply</a>
+          <span class="state state--open">Заявки открыты</span>
+          <a class="btn btn--ghost" href="./apply.html">Подать</a>
         </div>
       </article>
 
       <article class="ed">
         <h3 class="ed__name"><em>Modul</em>thon</h3>
         <p class="ed__body">
-          Modular housing. A repeatable dwelling unit in cross-laminated timber
-          — one that survives the climate, ships flat, and costs what a villa
-          developer in Bali can actually sign.
+          Модульное жильё. Повторяемая жилая единица из CLT — такая, что
+          переживает влажность, едет плоской пачкой и стоит денег, которые
+          застройщик на Бали действительно подпишет.
         </p>
         <div class="ed__foot">
-          <span class="state state--soon">Announced soon</span>
-          <a class="btn btn--ghost" href="./apply.html">Register interest</a>
+          <span class="state state--soon">Скоро анонс</span>
+          <a class="btn btn--ghost" href="./apply.html">Записаться</a>
         </div>
       </article>
 
       <article class="ed">
         <h3 class="ed__name"><em>Reka</em>thon</h3>
         <p class="ed__body">
-          Design and engineering, open brief. The edition for the ideas that do
-          not fit a category yet — facades, joints, tooling, and the details
-          nobody has bothered to solve locally.
+          Проектирование и инжиниринг, открытый бриф. Издание для того, что
+          пока не попадает в категорию: фасады, узлы, оснастка и детали,
+          которые локально просто никто не взялся решить.
         </p>
         <div class="ed__foot">
-          <span class="state">In planning</span>
-          <a class="btn btn--ghost" href="./apply.html">Register interest</a>
+          <span class="state">В планах</span>
+          <a class="btn btn--ghost" href="./apply.html">Записаться</a>
+        </div>
+      </article>
+
+      <article class="ed">
+        <h3 class="ed__name"><em>Print</em>thon</h3>
+        <p class="ed__body">
+          3D-печать: сами принтеры, оснастка для работы с деревом и модели под
+          печать. Пластик и дерево в одном узле — там, где фрезе уже неудобно,
+          а руками ещё долго.
+        </p>
+        <div class="ed__foot">
+          <span class="state">В планах</span>
+          <a class="btn btn--ghost" href="./apply.html">Записаться</a>
         </div>
       </article>
     </div>
   </section>
 
-  <section class="sec wrap limit" id="journal">
+  <section class="sec wrap limit" id="baza">
     <div class="sec__head">
-      <span class="eyebrow">Journal</span>
-      <h2 class="sec__title">News, announcements, and what we learned.</h2>
+      <span class="eyebrow">Что вы получаете</span>
+      <h2 class="sec__title">Техническая база, которой у одного человека быть не может.</h2>
       <p class="sec__note">
-        Everything the platform finds out — what a brief cost, what a factory
-        said, what broke on Sunday morning — is written down here.
+        Смысл оператора в том, чтобы предпринимателю с идеей не пришлось
+        сначала построить завод.
       </p>
     </div>
 
-    <!-- PLACEHOLDER ENTRIES. These are written to show the shape of the feed,
-         not to report anything that happened. Replace every one of them with a
-         real post before the site goes public. -->
-    <div class="posts">
-      <a class="post" href="#">
-        <span class="post__date mono">Coming soon</span>
-        <span>
-          <h3 class="post__title">Mebelthon 01 — the brief, the jury and the factory</h3>
-          <p class="post__sum">The first edition's brief, written with the manufacturer who will build the winner.</p>
-        </span>
-        <span class="post__tag">Announcement</span>
-      </a>
-      <a class="post" href="#">
-        <span class="post__date mono">Coming soon</span>
-        <span>
-          <h3 class="post__title">What cross-laminated timber actually costs in Indonesia</h3>
-          <p class="post__sum">Panel, transport, tooling and lead time, with the numbers rather than the enthusiasm.</p>
-        </span>
-        <span class="post__tag">Finding</span>
-      </a>
-      <a class="post" href="#">
-        <span class="post__date mono">Coming soon</span>
-        <span>
-          <h3 class="post__title">How the crowdfunding round works</h3>
-          <p class="post__sum">Who can back a project, what a backer receives, and when money reaches the makers.</p>
-        </span>
-        <span class="post__tag">Platform</span>
-      </a>
-      <a class="post" href="#">
-        <span class="post__date mono">Coming soon</span>
-        <span>
-          <h3 class="post__title">Open call for mentors, jury and manufacturing partners</h3>
-          <p class="post__sum">The people we still need in the room for the first edition.</p>
-        </span>
-        <span class="post__tag">Open call</span>
-      </a>
+    <div class="rules">
+      <article class="rule">
+        <span class="rule__n">01</span>
+        <h3 class="rule__name">Панель</h3>
+        <p class="rule__body">
+          CLT из индонезийского сырья, с паспортом на партию: порода, толщина,
+          слои, клей, влажность. Столько, сколько нужно прототипу, — не вагон.
+        </p>
+      </article>
+      <article class="rule">
+        <span class="rule__n">02</span>
+        <h3 class="rule__name">Производство</h3>
+        <p class="rule__body">
+          Раскрой на ЧПУ, пресс, шлифовка, отделка. Ваш файл уезжает в цех,
+          который уже умеет работать с этой панелью и не переспрашивает, что
+          такое ламель.
+        </p>
+      </article>
+      <article class="rule">
+        <span class="rule__n">03</span>
+        <h3 class="rule__name">Инженер и бриф</h3>
+        <p class="rule__body">
+          Настоящие ограничения на первый день: размеры панели, оснастка,
+          бюджет, сроки. Предложение, которое их игнорирует, — это картинка,
+          а не изделие, и мы честно скажем об этом до, а не после.
+        </p>
+      </article>
+      <article class="rule">
+        <span class="rule__n">04</span>
+        <h3 class="rule__name">Зал и витрина</h3>
+        <p class="rule__body">
+          Сделанное показывается вживую: застройщики, отельеры, закупщики,
+          пресса. Для большинства команд это первый раз, когда их работу
+          оценивает тот, кто хочет её купить.
+        </p>
+      </article>
+      <article class="rule">
+        <span class="rule__n">05</span>
+        <h3 class="rule__name">Деньги на серию</h3>
+        <p class="rule__body">
+          То, за что проголосовал зал, открывается для сбора средств здесь же.
+          Сто человек на один прототип или один застройщик на всю партию —
+          в обмен на изделие, чертежи или долю первой серии.
+        </p>
+      </article>
     </div>
   </section>
 
-  <section class="chain wrap limit" id="chain">
-    <div>
-      <span class="eyebrow">The chain</span>
-      <p class="chain__q">
-        The first site builds in timber. This one finds the people who will.
+  <section class="sec wrap limit" id="lenta">
+    <div class="sec__head">
+      <span class="eyebrow">Лента</span>
+      <h2 class="sec__title">Новости, выставки и то, что мы выяснили.</h2>
+      <p class="sec__note">
+        Что стоил бриф, что ответил цех, что сломалось в воскресенье утром, —
+        записывается здесь.
       </p>
     </div>
-    <div>
-      <p>
-        INCLT works on cross-laminated timber construction in Indonesia — the
-        material, the engineering and the buildings. Doing that at any scale
-        needs more designers, more makers and more developers who understand
-        the material than the country currently has in one room.
-      </p>
-      <p>
-        This platform is how they get into that room. Short sprints with a real
-        brief, work that gets built rather than rendered, an audience that can
-        order it, and a way for anyone to put money behind a piece they want to
-        exist. Selected teams continue with us afterwards — on commissions,
-        on production runs, and on projects that started here.
-      </p>
-      <p><a class="btn btn--ghost" href="https://buildinclt.com" rel="noopener">Visit buildinclt.com</a></p>
+
+    <!-- ЗАГЛУШКИ. Показывают форму ленты и ни о чём не сообщают. Заменить
+         настоящими записями до анонса портала. -->
+    <div class="posts">
+      <a class="post" href="#">
+        <span class="post__date mono">Скоро</span>
+        <span>
+          <h3 class="post__title">Mebelthon 01: бриф, жюри и цех, который построит победителя</h3>
+          <p class="post__sum">Задание первого издания, написанное вместе с производством.</p>
+        </span>
+        <span class="post__tag">Анонс</span>
+      </a>
+      <a class="post" href="#">
+        <span class="post__date mono">Скоро</span>
+        <span>
+          <h3 class="post__title">Сколько на самом деле стоит CLT в Индонезии</h3>
+          <p class="post__sum">Панель, логистика, оснастка и сроки — цифрами, а не воодушевлением.</p>
+        </span>
+        <span class="post__tag">Разбор</span>
+      </a>
+      <a class="post" href="#">
+        <span class="post__date mono">Скоро</span>
+        <span>
+          <h3 class="post__title">Сенгон за пять лет: что показывают испытания на расслоение</h3>
+          <p class="post__sum">Быстрорастущие тропические породы и норматив EN 16351.</p>
+        </span>
+        <span class="post__tag">Материал</span>
+      </a>
+      <a class="post" href="#">
+        <span class="post__date mono">Скоро</span>
+        <span>
+          <h3 class="post__title">Открытый набор менторов, жюри и производственных партнёров</h3>
+          <p class="post__sum">Кого нам ещё не хватает в зале на первом издании.</p>
+        </span>
+        <span class="post__tag">Набор</span>
+      </a>
     </div>
   </section>
 
   <section class="call wrap limit">
-    <h2>Bring something that can be built.</h2>
+    <h2>Приносите то, что <em>можно построить</em>.</h2>
     <p>
-      Applications are read by people who make things for a living. Tell us what
-      you would make and what you need to make it.
+      Заявки читают люди, которые делают вещи руками. Расскажите, что бы вы
+      сделали и чего вам для этого не хватает.
     </p>
-    <a class="btn btn--solid" href="./apply.html">Apply to take part</a>
+    <a class="btn btn--solid" href="./apply.html">Присоединиться</a>
   </section>
 
 </main>
 
 <footer class="foot wrap limit">
-  <span>NUSATHON — Indonesia</span>
+  <span>NUSATHON — Индонезия</span>
   <nav>
-    <a href="./apply.html">Apply</a>
-    <a href="#journal">Journal</a>
+    <a href="./apply.html">Заявка</a>
+    <a href="#lenta">Лента</a>
+    <a href="./en/">English</a>
     <a href="https://buildinclt.com" rel="noopener">INCLT</a>
     <a href="mailto:info@buildinclt.com">info@buildinclt.com</a>
   </nav>

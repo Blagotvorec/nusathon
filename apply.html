@@ -1,17 +1,19 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Apply — NUSATHON</title>
-<meta name="description" content="Apply to take part in a NUSATHON build sprint — Mebelthon, Modulthon or Rekathon — as a designer, architect, maker, engineer, developer or backer.">
+<title>Заявка — NUSATHON</title>
+<meta name="description" content="Подать заявку на участие в хакатоне NUSATHON — Mebelthon, Modulthon, Rekathon или Printthon — как дизайнер, архитектор, мебельщик, инженер, застройщик, производство или инвестор.">
 <link rel="canonical" href="https://nusathon.com/apply.html">
-<meta name="robots" content="index, follow">
+<link rel="alternate" hreflang="ru" href="https://nusathon.com/apply.html">
+<link rel="alternate" hreflang="en" href="https://nusathon.com/en/apply.html">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Apply — NUSATHON">
-<meta property="og:description" content="Tell us what you would make and what you need to make it.">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="Заявка — NUSATHON">
+<meta property="og:description" content="Расскажите, что бы вы сделали и чего вам для этого не хватает.">
 <meta property="og:url" content="https://nusathon.com/apply.html">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%231a1712'/%3E%3Cpath d='M8 22V10l8 12V10' fill='none' stroke='%23b07d4e' stroke-width='2.4'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230e0d0b'/%3E%3Cg fill='%23c69a65'%3E%3Crect x='0' y='19' width='15' height='22'/%3E%3Crect x='45' y='19' width='55' height='22'/%3E%3Crect x='0' y='59' width='55' height='22'/%3E%3Crect x='85' y='59' width='15' height='22'/%3E%3Crect x='19' y='0' width='22' height='55'/%3E%3Crect x='19' y='85' width='22' height='15'/%3E%3Crect x='59' y='0' width='22' height='15'/%3E%3Crect x='59' y='45' width='22' height='55'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter+Tight:wght@200;300;400&display=swap">
@@ -20,33 +22,33 @@
 <body>
 
 <header class="head wrap">
-  <a class="mark" href="./"><b>NUSATHON</b> <span>ID</span></a>
+  <a class="mark" href="./"><span class="mark__glyph" aria-hidden="true"></span><b>NUSATHON</b></a>
   <nav class="nav">
-    <a href="./#program">Program</a>
-    <a href="./#editions">Editions</a>
-    <a href="./#journal">Journal</a>
-    <a class="btn btn--ghost" href="./">Back</a>
+    <a href="./#missiya">Миссия</a>
+    <a href="./#material">Материал</a>
+    <a href="./#hakatony">Хакатоны</a>
+    <span class="langs"><a href="./apply.html" aria-current="page">RU</a>&nbsp;/&nbsp;<a href="./en/apply.html">EN</a></span>
+    <a class="btn btn--ghost" href="./">Назад</a>
   </nav>
 </header>
 
 <main class="apply wrap limit">
 
   <aside class="aside">
-    <span class="eyebrow">Application</span>
-    <h1>Tell us what you would make.</h1>
+    <span class="eyebrow">Заявка</span>
+    <h1>Расскажите, что бы вы сделали.</h1>
     <p>
-      There is no portfolio threshold and no fee. We are reading for one thing:
-      whether the thing you describe could be standing in a room by Sunday
-      evening.
+      Порога по портфолио нет, взноса нет. Мы читаем ради одного: может ли
+      описанное вами к вечеру воскресенья стоять в зале.
     </p>
 
     <div class="aside__after">
-      <span class="label" style="display:block;margin-bottom:14px;">What happens next</span>
+      <span class="label" style="display:block;margin-bottom:14px;">Что дальше</span>
       <ol>
-        <li>We read every application ourselves, and answer within a week.</li>
-        <li>A short call — twenty minutes, to agree what you would build.</li>
-        <li>You get the brief, the material list and your team, two weeks ahead.</li>
-        <li>Teams whose work we want to keep going with continue as partners: commissions, production runs, and the projects that come out of them.</li>
+        <li>Заявки читаем сами, отвечаем в течение недели.</li>
+        <li>Короткий созвон — двадцать минут, договориться, что именно вы делаете.</li>
+        <li>За две недели до события: бриф, список материала и состав команды.</li>
+        <li>С командами, чью работу хочется продолжать, работаем дальше — заказы, серии и проекты, выросшие отсюда.</li>
       </ol>
     </div>
   </aside>
@@ -55,109 +57,112 @@
     <form class="form" id="apply" novalidate>
       <div class="pair">
         <p class="field">
-          <label for="name">Name</label>
+          <label for="name">Имя</label>
           <input id="name" name="name" type="text" autocomplete="name" required>
         </p>
         <p class="field">
-          <label for="email">Email</label>
+          <label for="email">Почта</label>
           <input id="email" name="email" type="email" autocomplete="email" required>
         </p>
       </div>
 
       <div class="pair">
         <p class="field">
-          <label for="role">What you do</label>
+          <label for="role">Чем вы занимаетесь</label>
           <select id="role" name="role" required>
             <option value="" selected disabled></option>
-            <option>Interior designer</option>
-            <option>Exterior designer / landscape</option>
-            <option>Architect</option>
-            <option>Furniture designer / maker</option>
-            <option>Engineer</option>
-            <option>Property developer</option>
-            <option>Manufacturer / factory</option>
-            <option>Investor / backer</option>
-            <option>Student</option>
-            <option>Something else</option>
+            <option>Дизайнер интерьера</option>
+            <option>Ландшафт и экстерьер</option>
+            <option>Архитектор</option>
+            <option>Мебельщик, дизайнер мебели</option>
+            <option>Инженер-конструктор</option>
+            <option>Застройщик</option>
+            <option>Производство, цех</option>
+            <option>Проектное бюро</option>
+            <option>Инвестор</option>
+            <option>Студент</option>
+            <option>Другое</option>
           </select>
         </p>
         <p class="field">
-          <label for="city">City and country</label>
+          <label for="city">Город и страна</label>
           <input id="city" name="city" type="text" autocomplete="address-level2" required>
         </p>
       </div>
 
       <div class="pair">
         <p class="field">
-          <label for="studio">Studio or company</label>
-          <input id="studio" name="studio" type="text" placeholder="Leave empty if independent">
+          <label for="studio">Бюро или компания</label>
+          <input id="studio" name="studio" type="text" placeholder="Пусто, если сами по себе">
         </p>
         <p class="field">
-          <label for="link">Portfolio, Instagram or site</label>
+          <label for="link">Портфолио, Instagram или сайт</label>
           <input id="link" name="link" type="url" inputmode="url" placeholder="https://">
         </p>
       </div>
 
       <fieldset class="field" style="border:0;padding:0;margin:0;">
-        <legend class="label" style="padding:0 0 10px;">Which edition</legend>
+        <legend class="label" style="padding:0 0 10px;">Какой хакатон</legend>
         <span class="checks">
-          <label class="check"><input type="checkbox" name="edition" value="Mebelthon"><span>Mebelthon — furniture</span></label>
-          <label class="check"><input type="checkbox" name="edition" value="Modulthon"><span>Modulthon — modular housing</span></label>
-          <label class="check"><input type="checkbox" name="edition" value="Rekathon"><span>Rekathon — open brief</span></label>
+          <label class="check"><input type="checkbox" name="edition" value="Mebelthon"><span>Mebelthon — мебель</span></label>
+          <label class="check"><input type="checkbox" name="edition" value="Modulthon"><span>Modulthon — модульное жильё</span></label>
+          <label class="check"><input type="checkbox" name="edition" value="Rekathon"><span>Rekathon — открытый бриф</span></label>
+          <label class="check"><input type="checkbox" name="edition" value="Printthon"><span>Printthon — 3D-печать</span></label>
         </span>
       </fieldset>
 
       <fieldset class="field" style="border:0;padding:0;margin:0;">
-        <legend class="label" style="padding:0 0 10px;">How you want to take part</legend>
+        <legend class="label" style="padding:0 0 10px;">Как хотите участвовать</legend>
         <span class="checks">
-          <label class="check"><input type="checkbox" name="mode" value="Compete"><span>Compete</span></label>
-          <label class="check"><input type="checkbox" name="mode" value="Join a team"><span>Join a team</span></label>
-          <label class="check"><input type="checkbox" name="mode" value="Mentor / jury"><span>Mentor or jury</span></label>
-          <label class="check"><input type="checkbox" name="mode" value="Manufacture"><span>Manufacture</span></label>
-          <label class="check"><input type="checkbox" name="mode" value="Back a project"><span>Back a project</span></label>
+          <label class="check"><input type="checkbox" name="mode" value="Соревноваться"><span>Соревноваться</span></label>
+          <label class="check"><input type="checkbox" name="mode" value="Войти в команду"><span>Войти в команду</span></label>
+          <label class="check"><input type="checkbox" name="mode" value="Ментор или жюри"><span>Ментор или жюри</span></label>
+          <label class="check"><input type="checkbox" name="mode" value="Производить"><span>Производить</span></label>
+          <label class="check"><input type="checkbox" name="mode" value="Поддержать деньгами"><span>Поддержать деньгами</span></label>
         </span>
       </fieldset>
 
       <p class="field">
-        <label for="idea">What would you make, and what does it need?</label>
+        <label for="idea">Что бы вы сделали и что для этого нужно?</label>
         <textarea id="idea" name="idea" rows="5" required
-          placeholder="A few sentences is plenty. The material, the machine or the person you would need is more useful to us than the concept."></textarea>
+          placeholder="Нескольких предложений достаточно. Материал, станок или человек, которого вам не хватает, полезнее для нас, чем концепция."></textarea>
       </p>
 
       <p class="field">
-        <label for="telegram">Telegram or WhatsApp</label>
-        <input id="telegram" name="telegram" type="text" placeholder="@handle or +62…">
-        <span class="field__hint">Optional, but it is how the sprint itself is run.</span>
+        <label for="telegram">Telegram или WhatsApp</label>
+        <input id="telegram" name="telegram" type="text" placeholder="@ник или +62…">
+        <span class="field__hint">Необязательно, но сам хакатон живёт именно там.</span>
       </p>
 
       <div class="form__foot">
-        <button class="btn btn--solid" type="submit">Send application</button>
+        <button class="btn btn--solid" type="submit">Отправить заявку</button>
         <p class="form__note">
-          We use what you write here to run the event and nothing else. No list,
-          no forwarding.
+          Написанное здесь нужно нам, чтобы провести событие, и больше ни для
+          чего. Ни в какие списки не попадает и никому не передаётся.
         </p>
       </div>
       <p class="form__status" id="status" role="status" aria-live="polite"></p>
     </form>
 
     <div class="done" id="done" hidden>
-      <span class="eyebrow">Received</span>
-      <h2>Thank you — we have it.</h2>
+      <span class="eyebrow">Получено</span>
+      <h2>Спасибо — заявка у нас.</h2>
       <p>
-        We read applications ourselves rather than filtering them, so the answer
-        takes a few days and comes from a person. If you would rather talk
-        first, write to <a href="mailto:info@buildinclt.com">info@buildinclt.com</a>.
+        Мы читаем заявки сами, а не фильтруем, поэтому ответ занимает несколько
+        дней и приходит от человека. Если хочется сначала поговорить —
+        пишите на <a href="mailto:info@buildinclt.com">info@buildinclt.com</a>.
       </p>
-      <p><a class="btn btn--ghost" href="./">Back to the platform</a></p>
+      <p><a class="btn btn--ghost" href="./">Вернуться на портал</a></p>
     </div>
   </div>
 
 </main>
 
 <footer class="foot wrap limit">
-  <span>NUSATHON — Indonesia</span>
+  <span>NUSATHON — Индонезия</span>
   <nav>
-    <a href="./">Platform</a>
+    <a href="./">Портал</a>
+    <a href="./en/apply.html">English</a>
     <a href="https://buildinclt.com" rel="noopener">INCLT</a>
     <a href="mailto:info@buildinclt.com">info@buildinclt.com</a>
   </nav>

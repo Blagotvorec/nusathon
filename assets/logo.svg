@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" color="#0E0D0B" role="img" aria-label="Nusathon">
+  <!-- Cross-lamination, drawn honestly: two layers of boards laid across each
+       other, over and under in turn. It is what a CLT panel is, and it is also
+       anyaman — the plaited weave of Indonesian craft. Nothing to translate,
+       nothing to explain, and no century it belongs to.
+
+       Single colour, no gradients, no type: it survives a 16px favicon, a
+       branding iron and a cast panel edge equally well. -->
+  <g fill="currentColor">
+    <!-- upper board: passes under the left vertical, over the right -->
+    <rect x="0" y="19" width="15" height="22"/>
+    <rect x="45" y="19" width="55" height="22"/>
+    <!-- lower board: over the left vertical, under the right -->
+    <rect x="0" y="59" width="55" height="22"/>
+    <rect x="85" y="59" width="15" height="22"/>
+    <!-- left board: over the upper, under the lower -->
+    <rect x="19" y="0" width="22" height="55"/>
+    <rect x="19" y="85" width="22" height="15"/>
+    <!-- right board: under the upper, over the lower -->
+    <rect x="59" y="0" width="22" height="15"/>
+    <rect x="59" y="45" width="22" height="55"/>
+  </g>
+</svg>
