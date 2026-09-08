@@ -96,9 +96,9 @@ const APPLY_EMAIL = "info@buildinclt.com";
   // просто не досматривают — на спокойном ходу полный круг идёт двадцать
   // секунд, и Apithon с Hackathon никто никогда не видит.
   const settle = () => {
-    let hidden = false;
+    let hidden = document.hidden;               // в скрытой вкладке не крутим
     document.addEventListener("visibilitychange", () => {
-      hidden = document.hidden;                 // в скрытой вкладке не крутим
+      hidden = document.hidden;
     });
     let paused = false;
     el.closest(".hero__mark")?.addEventListener("pointerenter", () => (paused = true));
@@ -122,16 +122,41 @@ const APPLY_EMAIL = "info@buildinclt.com";
 
   if (still) return settle();
 
-  const deal = setInterval(() => {
-    i += 1;
-    if (i >= words.length) {
-      clearInterval(deal);
-      i = words.length - 1;
-      setTimeout(settle, HOLD);
-      return;
-    }
+  const runDeal = () => {
+    const deal = setInterval(() => {
+      i += 1;
+      if (i >= words.length) {
+        clearInterval(deal);
+        i = words.length - 1;
+        setTimeout(settle, HOLD);
+        return;
+      }
+      swap(words[i]);
+    }, DEAL);
+  };
+
+  // Вкладка могла открыться в фоне. Тогда раздача пройдёт, пока на неё никто
+  // не смотрит, — а это единственный момент, когда видно всё семейство сразу.
+  // Ждём, пока на страницу действительно посмотрят.
+  if (document.hidden) {
+    document.addEventListener(
+      "visibilitychange",
+      function once() {
+        if (document.hidden) return;
+        document.removeEventListener("visibilitychange", once);
+        runDeal();
+      }
+    );
+  } else {
+    runDeal();
+  }
+
+  // Прямое управление: по знаку можно щёлкнуть и перебрать имена самому.
+  el.closest(".hero__mark")?.addEventListener("click", () => {
+    i = (i + 1) % words.length;
     swap(words[i]);
-  }, DEAL);
+  });
+  el.closest(".hero__mark")?.style.setProperty("cursor", "pointer");
 })();
 
 /* ── расписание тонов ───────────────────────────────────────────────────── */
