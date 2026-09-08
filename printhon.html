@@ -39,9 +39,8 @@
 <header class="head wrap">
   <a class="mark" href="./"><span class="mark__glyph" aria-hidden="true"></span><b>NUSATHON</b></a>
   <nav class="nav">
-    <a href="./#matrica">Матрица тонов</a>
-    <a href="./#nagrady">Награды</a>
-    <a href="./#biblioteka">Библиотека</a>
+    <a href="./">Расписание</a>
+    <a href="./library.html">Библиотека</a>
     <a class="btn btn--solid" href="./apply.html">Регистрация</a>
   </nav>
 </header>
@@ -54,8 +53,11 @@
     <h1 class="hero__title">Модель, которую <em>напечатают</em>.</h1>
 
     <!-- Единственное значение, которое двигает событие. Меняется здесь — и
-         обязано поменяться в JSON-LD выше и в матрице на главной. -->
-    <div class="clock" data-deadline="2026-10-08T09:00:00+08:00">
+         обязано поменяться в JSON-LD выше и в матрице на главной.
+
+         Задержитесь на отсчёте — или троньте его трижды. -->
+    <div class="clock" data-deadline="2026-10-08T09:00:00+08:00"
+         data-egg="Соту придумала пчела. Улей — нет.">
       <span class="clock__fallback">Старт 8 октября 2026, 09:00 WITA</span>
     </div>
 
@@ -66,7 +68,7 @@
     </p>
     <div class="hero__acts">
       <a class="btn btn--solid" href="./apply.html">Зарегистрироваться</a>
-      <a class="btn btn--ghost" href="./#matrica">Все тоны</a>
+      <a class="btn btn--ghost" href="./">Все тоны</a>
     </div>
   </section>
 
@@ -141,12 +143,13 @@
   <span>NUSATHON — Индонезия</span>
   <nav>
     <a href="./">Портал</a>
-    <a href="./#matrica">Матрица тонов</a>
+    <a href="./">Расписание</a>
     <a href="https://modulthon.com" rel="noopener">Modulthon</a>
     <a href="mailto:info@buildinclt.com">info@buildinclt.com</a>
   </nav>
 </footer>
 
 <script src="./assets/app.js" defer></script>
+<script src="./assets/hive.js" defer></script>
 </body>
 </html>

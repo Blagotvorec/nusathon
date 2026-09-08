@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 100" color="#0E0D0B" role="img" aria-label="Printhon">
+  <path fill="none" stroke="currentColor" stroke-width="22"
+        stroke-linecap="butt" stroke-linejoin="miter"
+        d="M11 89 L11 11 L89 11 L89 89 L37 89 L37 37 L63 37"/>
+  <text x="140" y="50" fill="currentColor" dominant-baseline="central"
+        font-family="'Inter Tight', Helvetica, Arial, sans-serif"
+        font-size="46" font-weight="300" letter-spacing="7">PRINTHON</text>
+</svg>

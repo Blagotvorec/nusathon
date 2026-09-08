@@ -43,7 +43,11 @@ html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
-  background: var(--ground);
+  background:
+    radial-gradient(56vw 44vh at 76% 4%, rgba(198, 154, 101, 0.13), transparent 62%),
+    radial-gradient(46vw 42vh at 6% 98%, rgba(198, 154, 101, 0.06), transparent 60%),
+    var(--ground);
+  background-attachment: fixed;
   color: var(--fg);
   font-family: var(--sans);
   font-weight: 300;
@@ -389,77 +393,294 @@ button, input, textarea, select { font: inherit; color: inherit; }
                      text-transform: uppercase; color: var(--muted-2); }
 /* Запасная строка: она видна, пока скрипт не отработал, и остаётся
    единственным содержимым, если он не отработает вовсе. */
+/* ── соты за цифрами (Printhon) ─────────────────────────────────────────── */
+
+/* Обёртка вокруг часов, а не внутри: отсчёт перерисовывает свой innerHTML
+   целиком, и всё, что положили внутрь, он бы снёс. */
+/* Ширина по содержимому, иначе обёртка растянется на всю колонку и соты
+   встанут по центру текста, а не по центру цифр. */
+.hive-wrap { position: relative; display: block; width: max-content; max-width: 100%; }
+
+.hive {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: clamp(140px, min(17vw, 26vh), 240px);
+  height: clamp(140px, min(17vw, 26vh), 240px);
+  /* Чуть выше геометрического центра обёртки: в неё входят подписи под
+     цифрами, и по-честному посередине соты сползали бы в текст под часами. */
+  transform: translate(-50%, -54%) scale(0.94);
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1s var(--ease), transform 1.4s var(--ease);
+}
+.hive.on { opacity: 1; transform: translate(-50%, -54%) scale(1); }
+
+.hive polygon, .hive path {
+  fill: none;
+  stroke: var(--wood);
+  stroke-width: 1;
+  /* Ячейки прочерчиваются одна за другой — так их кладёт сопло. */
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  opacity: 0.42;
+}
+.hive.on polygon, .hive.on path {
+  animation: hive-draw 1s var(--ease) forwards;
+  animation-delay: calc(var(--i) * 0.14s);
+}
+/* Седьмая ярче остальных: если запомнится одна ячейка, пусть это будет она. */
+.hive__odd { opacity: 0.85 !important; stroke-width: 1.4; }
+
+@keyframes hive-draw { to { stroke-dashoffset: 0; } }
+
+/* Цифры — над сотами. Ячейки собирает скрипт, .clock__cell приходит из
+   отсчёта, поэтому слой задаётся здесь, а не в разметке. */
+.hive-wrap .clock { position: relative; z-index: 1; }
+
+.hive__line {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 0.5em);
+  transform: translateX(-50%);
+  padding: 0.45em 0.9em;
+  border: 1px solid rgba(198, 154, 101, 0.28);
+  border-radius: 999px;
+  background: rgba(14, 13, 11, 0.92);
+  backdrop-filter: blur(6px);
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--wood);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.9s var(--ease);
+  transition-delay: 1s;
+  pointer-events: none;
+}
+.hive__line.on { opacity: 0.85; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hive.on polygon, .hive.on path { animation: none; stroke-dashoffset: 0; }
+}
+
 .clock__fallback, .clock__now { font-family: var(--mono); font-size: 12px;
                                 letter-spacing: 0.14em; text-transform: uppercase; color: var(--wood); }
 
-/* ── матрица тонов ───────────────────────────────────────────────────────── */
+/* ── один экран ──────────────────────────────────────────────────────────── */
 
-/* Не таблица, а сетка: на узком экране строка обязана разворачиваться в
-   карточку, а <table> этого без вранья в разметке не умеет. Заголовок —
-   отдельная строка той же сетки, поэтому колонки сходятся сами. */
-.matrix { border-top: 1px solid var(--line); }
-.mrow {
+/* Страница обязана уместиться целиком, поэтому кегли меряются не только по
+   ширине, но и по высоте: min(vw, vh) внутри clamp. Низкое окно — опасный
+   случай, которого одни vw не видят, и именно на нём вёрстка без этого
+   уезжает за нижний край. svh, а не vh: на телефоне адресная строка иначе
+   съедает полосу и создаёт прокрутку там, где её быть не должно. */
+.screen { overflow-x: hidden; }
+.stage {
+  min-height: 100svh;
   display: grid;
-  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.3fr) 8.5rem 8.5rem 6rem 3rem;
-  gap: clamp(10px, 1.6vw, 26px);
+  grid-template-rows: auto 1fr auto;
+}
+/* Элемент грида по умолчанию не сжимается уже своего содержимого, поэтому
+   одна неразрывная строка моноширинным шрифтом расталкивает всю страницу. */
+.stage > * { min-width: 0; }
+.stage .head { position: static; backdrop-filter: none; background: none;
+               padding-block: clamp(10px, 1.8vh, 20px); }
+.stage .foot { padding-block: clamp(10px, 1.6vh, 22px); }
+
+.one {
+  min-height: 0;                       /* иначе строка грида не даёт содержимому сжаться */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(12px, 2.4vh, 40px);
+  padding-block: clamp(4px, 1vh, 18px);
+}
+
+.lede { display: grid; gap: clamp(6px, 1.2vh, 14px); }
+.lede .eyebrow { margin: 0; font-size: clamp(8.5px, 0.72vw, 10.5px); }
+.lede .hero__mark {
+  margin: 0;
+  font-size: clamp(30px, min(7.4vw, 10.2vh), 116px);
+  line-height: 0.88;
+  letter-spacing: -0.05em;
+  font-weight: 200;
+}
+.lede__slogan {
+  margin: 0;
+  font-weight: 200;
+  font-size: clamp(16px, min(2.4vw, 3.4vh), 38px);
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+  color: var(--muted);
+}
+.lede__slogan em { font-style: normal; color: var(--fg); }
+
+/* ── расписание тонов ────────────────────────────────────────────────────── */
+
+/* Не таблица дат, а одна ось на всех. Строки её делят, поэтому видно то, чего
+   в колонке с датой не увидеть: какие тоны идут внахлёст, где пусто и как
+   близко ближайший старт. Позиции считает скрипт из самих дат — новая строка
+   встаёт на место сама.
+
+   Ось — главная колонка и забирает всё свободное место; имя ограничено, иначе
+   на широком экране оно растягивается на пол-страницы, а дорожка сжимается в
+   огрызок, и весь смысл раскладки пропадает. */
+
+.sched {
+  --cols: minmax(8rem, 17rem) minmax(0, 1fr) 5.5rem;
+  --colgap: clamp(14px, 2.2vw, 40px);
+  position: relative;
+  min-height: 0;
+}
+
+.sched__axis {
+  display: grid;
+  grid-template-columns: var(--cols);
+  gap: var(--colgap);
+  height: clamp(16px, 2.3vh, 26px);
+}
+.sched__lane { grid-column: 2; position: relative; border-bottom: 1px solid var(--line-2); }
+.sched__tick {
+  position: absolute; bottom: 6px; transform: translateX(-50%);
+}
+.sched__tick:first-child {
+  transform: none;
+}
+.sched__tick:first-child::after { left: 0; }
+.sched__tick {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--muted-2); white-space: nowrap;
+}
+.sched__tick::after {
+  content: ""; position: absolute; left: 50%; top: 100%;
+  width: 1px; height: 6px; background: var(--line);
+}
+
+/* Линия «сегодня» — то, что превращает набор полосок в расписание: всё, что
+   слева от неё, уже позади. Ставится скриптом в пикселях, потому что должна
+   попасть внутрь колонки оси, а не всей строки. */
+.sched__today {
+  position: absolute; top: clamp(14px, 2vh, 20px); bottom: 0; width: 1px;
+  background: linear-gradient(180deg, var(--wood) 0%, rgba(198,154,101,0.15) 100%);
+  pointer-events: none; z-index: 2;
+}
+.sched__today::before {
+  content: "сегодня"; position: absolute; top: -13px; left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--wood);
+}
+
+/* ── строка ──────────────────────────────────────────────────────────────── */
+
+.trow {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--cols);
+  gap: var(--colgap);
   align-items: center;
-  padding-block: clamp(14px, 1.8vw, 22px);
-  border-bottom: 1px solid var(--line-2);
-  text-decoration: none;
-  color: inherit;
-  transition: background 0.4s var(--ease), padding-left 0.4s var(--ease);
+  padding: clamp(5px, 0.85vh, 15px) clamp(10px, 1.2vw, 18px);
+  margin-inline: clamp(-10px, -1.2vw, -18px);
+  border-radius: 12px;
+  /* Объём на чёрном делается светом сверху, а не тенью снизу: волосок света
+     по верхней грани и уход в темноту читаются как выпуклость, тень — как
+     грязь под элементом. */
+  background: linear-gradient(180deg, rgba(242,239,232,0.045), rgba(242,239,232,0.008));
+  box-shadow: inset 0 1px 0 rgba(242,239,232,0.08);
+  transition: background 0.4s var(--ease), box-shadow 0.4s var(--ease);
 }
-.mrow:hover { background: var(--ground-2); padding-left: 12px; }
-/* Ссылок в строке две — на сам тон и на его родителя. Вкладывать одну в
-   другую нельзя: браузер разрывает внешний <a>, и сетка рассыпается. */
-.mname a { color: inherit; text-decoration: none; transition: color 0.3s var(--ease); }
-.mname a:hover { color: var(--wood); }
-.mrow--head { padding-block: 12px; border-bottom-color: var(--line); }
-.mrow--head span { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.14em;
-                   text-transform: uppercase; color: var(--muted-2); }
+.trow + .trow { margin-top: clamp(2px, 0.55vh, 7px); }
+.trow:hover {
+  background: linear-gradient(180deg, rgba(242,239,232,0.10), rgba(242,239,232,0.02));
+  box-shadow: inset 0 1px 0 rgba(242,239,232,0.18);
+}
+.trow--vacant { background: none; box-shadow: inset 0 1px 0 rgba(242,239,232,0.035); }
+.trow--vacant:hover { background: linear-gradient(180deg, rgba(242,239,232,0.05), transparent); }
 
-.mname { margin: 0; font-weight: 300; font-size: clamp(17px, 1.7vw, 25px);
-         letter-spacing: -0.02em; line-height: 1.15; }
-.mname em { font-style: normal; color: var(--wood); }
-.mparent { color: var(--muted); font-size: 0.92em; }
-.mparent a { color: var(--wood); text-decoration: none; }
-.mparent a:hover { text-decoration: underline; }
-.mdate { font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--muted); }
-.mdate--none { color: var(--muted-2); }
+.trow__name { margin: 0; font-weight: 300; letter-spacing: -0.025em; line-height: 1.08;
+              font-size: clamp(15px, min(1.75vw, 2.6vh), 27px); }
+.trow__name a { color: inherit; text-decoration: none; transition: color 0.3s var(--ease); }
+.trow__name em { font-style: normal; color: var(--wood); }
+.trow__name a:hover { color: var(--wood); }
+.trow--vacant .trow__name { color: var(--muted); }
+.trow__parent { display: block; margin-top: clamp(2px, 0.4vh, 4px); font-family: var(--mono);
+                font-size: clamp(8px, 0.66vw, 9.5px); letter-spacing: 0.13em;
+                text-transform: uppercase; color: var(--muted-2); }
+.trow__parent a { color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--line-2); }
+.trow__parent a:hover { color: var(--wood); border-bottom-color: var(--wood); }
 
-/* Счётчик. Пока регистраций нет, в клетке стоит прочерк, а не ноль и уж тем
-   более не выдуманное число: пустая клетка честна, а придуманная цифра — это
-   первое, что проверяют и на чём ловят. */
-.mcount { font-family: var(--mono); font-size: 15px; letter-spacing: 0.04em; color: var(--fg); }
-.mcount[data-count="0"], .mcount:empty { color: var(--muted-2); }
-.mcount small { font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase;
-                color: var(--muted-2); display: block; margin-top: 2px; }
-.mgo { justify-self: end; color: var(--muted-2); transition: transform 0.4s var(--ease), color 0.4s var(--ease); }
-.mrow:hover .mgo { transform: translateX(4px); color: var(--wood); }
+/* ── дорожка и полоса ────────────────────────────────────────────────────── */
 
-@media (max-width: 900px) {
-  .mrow { grid-template-columns: minmax(0, 1fr) auto; gap: 6px 16px; padding-block: 18px; }
-  .mrow--head { display: none; }
-  .mparent { grid-column: 1 / -1; }
-  .mdate, .mcount { grid-column: auto; }
-  .mdate::before { content: attr(data-label) " "; color: var(--muted-2); }
-  .mgo { display: none; }
+.trow__track {
+  position: relative;
+  height: clamp(8px, 1.25vh, 12px);
+  border-radius: 999px;
+  background: rgba(0,0,0,0.4);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.55), inset 0 -1px 0 rgba(242,239,232,0.05);
+}
+.trow--vacant .trow__track {
+  background: none; box-shadow: none;
+  border: 1px dashed rgba(242,239,232,0.12);
+}
+.trow__bar {
+  position: absolute; top: 2px; bottom: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(142,97,61,0.75), var(--wood) 88%, #e7c79a);
+  box-shadow: 0 0 14px rgba(198,154,101,0.4);
+  transition: box-shadow 0.4s var(--ease);
+}
+.trow:hover .trow__bar { box-shadow: 0 0 24px rgba(198,154,101,0.7); }
+/* День старта — правый конец полосы и самая важная точка всей строки. */
+.trow__bar::after {
+  content: ""; position: absolute; right: -4px; top: 50%;
+  width: clamp(9px, 1.4vh, 13px); aspect-ratio: 1;
+  transform: translateY(-50%); border-radius: 50%;
+  background: var(--fg); box-shadow: 0 0 12px rgba(242,239,232,0.55);
+}
+.trow__when {
+  position: absolute; top: calc(100% + 3px); transform: translateX(-50%);
+  font-family: var(--mono); font-size: clamp(8px, 0.66vw, 9.5px);
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg); white-space: nowrap;
+}
+.trow__ghost {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  font-family: var(--mono); font-size: clamp(7.5px, 0.62vw, 9px);
+  letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted-2);
 }
 
-/* Приглашение в конце матрицы: клетка, у которой ещё нет родителя. */
-.mrow--open { border-bottom: 0; }
-.mrow--open .mname { color: var(--muted); }
+/* ── счётчик ─────────────────────────────────────────────────────────────── */
 
-/* ── награды ─────────────────────────────────────────────────────────────── */
+.trow__meta { display: grid; justify-items: end; gap: 1px; }
+.trow__count { font-family: var(--mono); font-size: clamp(13px, 1.7vh, 18px);
+               color: var(--fg); font-variant-numeric: tabular-nums; }
+.trow__count[data-count="0"] { color: var(--muted-2); }
+.trow__unit { font-family: var(--mono); font-size: clamp(7.5px, 0.6vw, 9px);
+              letter-spacing: 0.13em; text-transform: uppercase; color: var(--muted-2); }
+.trow__go { font-family: var(--mono); font-size: 15px; color: var(--wood);
+            display: inline-block; transition: transform 0.4s var(--ease); }
+.trow--open:hover .trow__go { transform: translateX(4px); }
 
-.awards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
-          gap: 1px; background: var(--line-2); border: 1px solid var(--line-2); }
-.award { background: var(--ground); padding: clamp(20px, 2.4vw, 32px); display: grid; gap: 10px;
-         align-content: start; }
-.award__n { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.14em;
-            text-transform: uppercase; color: var(--wood); }
-.award__t { margin: 0; font-weight: 300; font-size: clamp(16px, 1.4vw, 21px); letter-spacing: -0.015em; }
-.award__d { margin: 0; color: var(--muted); font-size: 0.92em; }
+/* Восемь строк с осью времени на телефоне честно не помещаются, а сжимать их
+   дальше значит сделать нечитаемыми. Там страница прокручивается — это меньшее
+   зло, чем шрифт в восемь пикселей. */
+@media (max-width: 900px), (max-height: 640px) {
+  .screen { overflow: auto; }
+  .stage { height: auto; min-height: 100svh; overflow: visible; }
+  .one { justify-content: flex-start; }
+  .sched { --cols: minmax(0, 1fr) auto; }
+  /* Отрицательные поля — приём для широкого экрана: там подложка строки
+     заходит в поля страницы. На телефоне полей почти нет, и этот же приём
+     вылезает за край. */
+  .trow { margin-inline: 0; }
+  .sched__axis { display: none; }
+  .sched__today { display: none; }
+  .trow { row-gap: 16px; }
+  .trow__track { grid-column: 1 / -1; }
+  .trow__when { top: calc(100% + 4px); }
+}
 
 /* ── библиотека ─────────────────────────────────────────────────────────── */
 
@@ -679,4 +900,17 @@ button, input, textarea, select { font: inherit; color: inherit; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
+/* Стрелка в строке-приглашении — на месте счётчика, чтобы колонка не поехала. */
+.trow__go { font-family: var(--mono); font-size: 15px; color: var(--wood);
+            transition: transform 0.4s var(--ease); display: inline-block; }
+.trow--open:hover .trow__go { transform: translateX(4px); }
+
+/* На узком экране один экран недостижим честно: восемь строк с осью времени
+   не помещаются, а сжимать их дальше значит сделать нечитаемым. Там страница
+   прокручивается — это меньшее зло, чем 8px шрифт. */
+@media (max-width: 900px), (max-height: 640px) {
+  .screen { overflow: auto; }
+  .stage { height: auto; min-height: 100svh; overflow: visible; }
+  .one { justify-content: flex-start; }
 }

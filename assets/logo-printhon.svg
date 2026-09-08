@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" color="#0E0D0B" role="img" aria-label="Printhon">
+  <!-- The path the nozzle takes, and where it has got to.
+
+       Printing is the one operation in this family that lays a single
+       continuous line: the head goes round the perimeter and spirals inward
+       until the layer is solid. So this is that line — one board, never lifted,
+       turning in on itself — and it stops in mid-air, because the layer is
+       still being laid. Finish the spiral and it becomes a pattern; leave it
+       unfinished and it is a process.
+
+       Родня Nusathon и Modulthon: та же доска в 22 единицы, тот же квадрат
+       в 100, тот же зазор в 4 между витками. Переплести, повернуть, вести
+       одной линией — три операции над одной и той же доской.
+
+       Single colour, no gradients, no type: survives a 16px favicon, a
+       branding iron and a cast panel edge equally well. -->
+  <path fill="none" stroke="currentColor" stroke-width="22"
+        stroke-linecap="butt" stroke-linejoin="miter"
+        d="M11 89 L11 11 L89 11 L89 89 L37 89 L37 37 L63 37"/>
+</svg>

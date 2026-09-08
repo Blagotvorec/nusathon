@@ -40,6 +40,59 @@ const APPLY_EMAIL = "info@buildinclt.com";
   }, 2600);
 })();
 
+/* ── расписание тонов ───────────────────────────────────────────────────── */
+
+(function schedule() {
+  const root = document.querySelector(".sched[data-from][data-to]");
+  if (!root) return;
+
+  const from = Date.parse(root.dataset.from);
+  const to = Date.parse(root.dataset.to);
+  if (!Number.isFinite(from) || !Number.isFinite(to) || to <= from) return;
+
+  // Доля окна, которую занимает дата. Всё остальное здесь — арифметика от неё.
+  const at = (iso) => ((Date.parse(iso) - from) / (to - from)) * 100;
+
+  root.querySelectorAll(".sched__tick[data-at]").forEach((tick) => {
+    tick.style.left = at(tick.dataset.at) + "%";
+  });
+
+  // Колонка оси, по которой выравнивается вертикаль «сегодня».
+  const lane = root.querySelector(".sched__lane");
+
+  root.querySelectorAll(".trow[data-start]").forEach((row) => {
+    const bar = row.querySelector(".trow__bar");
+    const when = row.querySelector(".trow__when");
+    if (!bar) return;
+
+    const end = at(row.dataset.start);
+    // Без даты подготовки полоса всё равно должна быть видимой: рисуем
+    // короткий отрезок перед стартом, а не нулевую ширину.
+    const begin = row.dataset.prep ? at(row.dataset.prep) : end - 5;
+    const left = Math.max(0, Math.min(begin, end));
+    const width = Math.max(1.5, end - left);
+
+    bar.style.left = left + "%";
+    bar.style.width = width + "%";
+    if (when) when.style.left = end + "%";
+  });
+
+  const today = root.querySelector(".sched__today");
+  const place = () => {
+    if (!today || !lane) return;
+    const p = at(new Date().toISOString().slice(0, 10));
+    if (p < 0 || p > 100) return;
+    const box = lane.getBoundingClientRect();
+    const base = root.getBoundingClientRect();
+    today.style.left = box.left - base.left + (box.width * p) / 100 + "px";
+    today.hidden = false;
+  };
+
+  place();
+  // Ширина колонки зависит от ширины окна, а проценты внутри неё — нет.
+  addEventListener("resize", place, { passive: true });
+})();
+
 /* ── обратный отсчёт ────────────────────────────────────────────────────── */
 
 (function countdown() {
