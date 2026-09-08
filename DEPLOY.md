@@ -6,16 +6,16 @@
 надиктованными задачами, что и основной сайт.
 
 ```
-nusathon.com   ──▶ nginx ──▶ /home/inclt/inclt-webapp/nusathon/
+nusathon.com   ──▶ nginx ──▶ /home/inclt/nusathon/
 ```
 
 > `modulthon.com` больше не редирект сюда — с 8 сентября 2026 у него
-> собственный сайт, см. [../modulthon/DEPLOY.md](../modulthon/DEPLOY.md).
+> собственный сайт, см. https://github.com/Blagotvorec/modulthon.
 > Блок с `return 301` из конфига убран там же, шагом 2.
 
 Все команды выполняются на сервере `34.45.82.165`, под root
 (`sudo -i` сразу после подключения). Как подключиться — шаг 2 в
-[../bot/README.md](../bot/README.md).
+инструкции INCLT.
 
 ---
 
@@ -65,13 +65,13 @@ Certbot выпускает сертификат, проверяя домен с�
 Сборка не нужна — забираем и всё:
 
 ```bash
-sudo -iu inclt git -C /home/inclt/inclt-webapp pull
+sudo -iu inclt git -C /home/inclt/nusathon pull
 ```
 
 Проверить, что файлы на месте:
 
 ```bash
-ls /home/inclt/inclt-webapp/nusathon
+ls /home/inclt/nusathon
 ```
 
 Должны быть `index.html`, `apply.html`, `assets`, `robots.txt`,
@@ -93,7 +93,7 @@ server {
     listen 80;
     server_name nusathon.com www.nusathon.com;
 
-    root /home/inclt/inclt-webapp/nusathon;
+    root /home/inclt/nusathon;
     index index.html;
 
     # У стиля и скрипта постоянные имена, без хэша сборки. Кэшировать их
@@ -168,7 +168,7 @@ certbot сам допишет в конфиг блоки на 443 и остав�
 без пересборки:
 
 ```bash
-sudo -iu inclt git -C /home/inclt/inclt-webapp pull
+sudo -iu inclt git -C /home/inclt/nusathon pull
 ```
 
 nginx перезапускать не нужно — он читает файлы с диска на каждый запрос.
