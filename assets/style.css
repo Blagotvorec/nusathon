@@ -579,6 +579,69 @@ button, input, textarea, select { font: inherit; color: inherit; }
 }
 .lede__slogan em { font-style: normal; color: var(--fg); }
 
+/* ── сборка модуля в карточке ────────────────────────────────────────────── */
+
+/* Карточка Modulthon рассказывает про модуль, из которого получается здание,
+   — и рисунок говорит ровно это: грани приходят по одной, складываются в
+   объём, на него встаёт второй, оба уходят, всё повторяется. Шесть граней,
+   один набор ключевых кадров, разница только в задержке.
+
+   Лежит за текстом и приглушён: это фон, а не иллюстрация, и спорить с
+   заголовком он не должен. */
+
+.mod-anim {
+  position: absolute;
+  /* Справа от текста и выше кнопки: описание занимает левую половину,
+     кнопка — весь низ, свободен правый верх. */
+  right: clamp(10px, 1.6vw, 26px);
+  top: 30%;
+  width: clamp(96px, 11vw, 152px);
+  height: auto;
+  pointer-events: none;
+  z-index: 0;
+}
+/* Содержимое карточки поднимается над рисунком. */
+.card2 > *:not(.mod-anim) { position: relative; z-index: 1; }
+
+.mod__p {
+  fill: rgba(198, 154, 101, 0.10);
+  stroke: var(--wood);
+  stroke-width: 1.4;
+  stroke-linejoin: round;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: mod-piece 7.6s var(--ease) infinite;
+  animation-delay: calc(var(--n) * 0.42s);
+}
+/* Верхняя грань — перекрытие: светлее, чтобы объём читался. */
+.mod__p--top { fill: rgba(198, 154, 101, 0.2); stroke-width: 1.6; }
+
+@keyframes mod-piece {
+  0%   { opacity: 0; transform: translateY(16px) scale(0.96); }
+  9%   { opacity: 0.6; transform: none; }
+  58%  { opacity: 0.6; transform: none; }
+  70%  { opacity: 0; transform: translateY(-12px); }
+  100% { opacity: 0; transform: translateY(16px) scale(0.96); }
+}
+
+/* Просьбу о меньшем движении уважаем, но картинку не отбираем: модуль просто
+   стоит собранным. */
+@media (prefers-reduced-motion: reduce) {
+  .mod__p { animation: none; opacity: 0.6; transform: none; }
+}
+
+/* На узкой карточке описание занимает всю ширину, поэтому рисунок
+   привязывается к низу — к строке отсчёта, где место есть всегда, сколько бы
+   строк ни занял текст выше. */
+@media (max-width: 900px) {
+  .mod-anim {
+    top: auto;
+    bottom: clamp(76px, 13vh, 116px);
+    width: clamp(80px, 24vw, 112px);
+  }
+}
+
 /* ── доска: два приглашения и открытые направления ───────────────────────── */
 
 /* Список строк информировал, но не звал: живой тон выглядел ровно как мёртвый,
@@ -623,6 +686,12 @@ button, input, textarea, select { font: inherit; color: inherit; }
 }
 
 /* Знак семейства водяным знаком: даёт карточке глубину и не спорит с текстом. */
+.card2:has(.mod-anim)::after { content: none; }
+/* Текст не должен дорастать до колонки с рисунком ни при какой длине и ни на
+   какой ширине — иначе однажды его туда занесёт переводом или правкой. */
+.card2:has(.mod-anim) .card2__what {
+  max-width: min(34ch, calc(100% - clamp(90px, 13vw, 175px)));
+}
 .card2::after {
   content: "";
   position: absolute;
