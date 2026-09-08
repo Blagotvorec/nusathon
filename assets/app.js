@@ -25,7 +25,7 @@ const APPLY_EMAIL = "info@buildinclt.com";
   if (!el) return;
 
   // -THON never moves; only what is bolted to the front of it does.
-  const words = ["MEBEL", "MODUL", "REKA", "WOOD"];
+  const words = ["MEBEL", "MODUL", "PRIN", "REKA", "AGRO", "CODE"];
   const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (still) return;
 
@@ -38,6 +38,46 @@ const APPLY_EMAIL = "info@buildinclt.com";
       delete el.dataset.out;                   // fade the new word back in
     }, 400);                                   // matches the CSS transition
   }, 2600);
+})();
+
+/* ── обратный отсчёт ────────────────────────────────────────────────────── */
+
+(function countdown() {
+  const el = document.querySelector("[data-deadline]");
+  if (!el) return;
+
+  const target = new Date(el.dataset.deadline);
+  if (Number.isNaN(target.getTime())) return;   // дата не разобралась — оставляем запасную строку
+
+  const cell = (n, word) =>
+    `<span class="clock__cell"><b>${n}</b><small>${word}</small></span>`;
+
+  // Склонение важнее, чем кажется: «через 21 дней» на главной странице
+  // события читается как небрежность ко всему остальному.
+  const plural = (n, one, few, many) => {
+    const m10 = n % 10, m100 = n % 100;
+    if (m10 === 1 && m100 !== 11) return one;
+    if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return few;
+    return many;
+  };
+
+  const tick = () => {
+    const left = target - Date.now();
+    if (left <= 0) {
+      el.innerHTML = '<span class="clock__now">Идёт сейчас</span>';
+      return clearInterval(timer);
+    }
+    const d = Math.floor(left / 86400000);
+    const h = Math.floor((left % 86400000) / 3600000);
+    const m = Math.floor((left % 3600000) / 60000);
+    el.innerHTML =
+      cell(d, plural(d, "день", "дня", "дней")) +
+      cell(h, plural(h, "час", "часа", "часов")) +
+      cell(m, plural(m, "минута", "минуты", "минут"));
+  };
+
+  tick();
+  const timer = setInterval(tick, 30000);
 })();
 
 /* ── the application form ───────────────────────────────────────────────── */

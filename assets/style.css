@@ -162,10 +162,20 @@ button, input, textarea, select { font: inherit; color: inherit; }
 
 .hero { padding-block: clamp(56px, 11vh, 130px) clamp(44px, 8vh, 100px); }
 
+/* Имя семейства — самое крупное на странице: меняется только приставка,
+   -THON стоит. Слоган идёт под ним и потому набран мельче. */
+.hero__mark {
+  margin: 0 0 clamp(18px, 2.4vw, 34px);
+  font-weight: 200;
+  font-size: clamp(44px, 9vw, 148px);
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+}
+
 .hero__title {
   margin: 0;
   font-weight: 200;
-  font-size: clamp(38px, 7.2vw, 112px);
+  font-size: clamp(26px, 3.8vw, 56px);
   line-height: 0.98;
   letter-spacing: -0.04em;
   max-width: 17ch;
@@ -367,6 +377,89 @@ button, input, textarea, select { font: inherit; color: inherit; }
   border: 1px dashed var(--line-2);
 }
 .shot__cap { position: relative; }
+
+/* ── обратный отсчёт ────────────────────────────────────────────────────── */
+
+.clock { display: flex; flex-wrap: wrap; gap: clamp(20px, 3.4vw, 52px);
+         margin: clamp(24px, 3.4vw, 40px) 0 0; }
+.clock__cell { display: grid; gap: 4px; }
+.clock__cell b { font-weight: 200; font-size: clamp(36px, 5.4vw, 76px); line-height: 1;
+                 letter-spacing: -0.045em; color: var(--wood); font-variant-numeric: tabular-nums; }
+.clock__cell small { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.14em;
+                     text-transform: uppercase; color: var(--muted-2); }
+/* Запасная строка: она видна, пока скрипт не отработал, и остаётся
+   единственным содержимым, если он не отработает вовсе. */
+.clock__fallback, .clock__now { font-family: var(--mono); font-size: 12px;
+                                letter-spacing: 0.14em; text-transform: uppercase; color: var(--wood); }
+
+/* ── матрица тонов ───────────────────────────────────────────────────────── */
+
+/* Не таблица, а сетка: на узком экране строка обязана разворачиваться в
+   карточку, а <table> этого без вранья в разметке не умеет. Заголовок —
+   отдельная строка той же сетки, поэтому колонки сходятся сами. */
+.matrix { border-top: 1px solid var(--line); }
+.mrow {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.3fr) 8.5rem 8.5rem 6rem 3rem;
+  gap: clamp(10px, 1.6vw, 26px);
+  align-items: center;
+  padding-block: clamp(14px, 1.8vw, 22px);
+  border-bottom: 1px solid var(--line-2);
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.4s var(--ease), padding-left 0.4s var(--ease);
+}
+.mrow:hover { background: var(--ground-2); padding-left: 12px; }
+/* Ссылок в строке две — на сам тон и на его родителя. Вкладывать одну в
+   другую нельзя: браузер разрывает внешний <a>, и сетка рассыпается. */
+.mname a { color: inherit; text-decoration: none; transition: color 0.3s var(--ease); }
+.mname a:hover { color: var(--wood); }
+.mrow--head { padding-block: 12px; border-bottom-color: var(--line); }
+.mrow--head span { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.14em;
+                   text-transform: uppercase; color: var(--muted-2); }
+
+.mname { margin: 0; font-weight: 300; font-size: clamp(17px, 1.7vw, 25px);
+         letter-spacing: -0.02em; line-height: 1.15; }
+.mname em { font-style: normal; color: var(--wood); }
+.mparent { color: var(--muted); font-size: 0.92em; }
+.mparent a { color: var(--wood); text-decoration: none; }
+.mparent a:hover { text-decoration: underline; }
+.mdate { font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--muted); }
+.mdate--none { color: var(--muted-2); }
+
+/* Счётчик. Пока регистраций нет, в клетке стоит прочерк, а не ноль и уж тем
+   более не выдуманное число: пустая клетка честна, а придуманная цифра — это
+   первое, что проверяют и на чём ловят. */
+.mcount { font-family: var(--mono); font-size: 15px; letter-spacing: 0.04em; color: var(--fg); }
+.mcount[data-count="0"], .mcount:empty { color: var(--muted-2); }
+.mcount small { font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase;
+                color: var(--muted-2); display: block; margin-top: 2px; }
+.mgo { justify-self: end; color: var(--muted-2); transition: transform 0.4s var(--ease), color 0.4s var(--ease); }
+.mrow:hover .mgo { transform: translateX(4px); color: var(--wood); }
+
+@media (max-width: 900px) {
+  .mrow { grid-template-columns: minmax(0, 1fr) auto; gap: 6px 16px; padding-block: 18px; }
+  .mrow--head { display: none; }
+  .mparent { grid-column: 1 / -1; }
+  .mdate, .mcount { grid-column: auto; }
+  .mdate::before { content: attr(data-label) " "; color: var(--muted-2); }
+  .mgo { display: none; }
+}
+
+/* Приглашение в конце матрицы: клетка, у которой ещё нет родителя. */
+.mrow--open { border-bottom: 0; }
+.mrow--open .mname { color: var(--muted); }
+
+/* ── награды ─────────────────────────────────────────────────────────────── */
+
+.awards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+          gap: 1px; background: var(--line-2); border: 1px solid var(--line-2); }
+.award { background: var(--ground); padding: clamp(20px, 2.4vw, 32px); display: grid; gap: 10px;
+         align-content: start; }
+.award__n { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.14em;
+            text-transform: uppercase; color: var(--wood); }
+.award__t { margin: 0; font-weight: 300; font-size: clamp(16px, 1.4vw, 21px); letter-spacing: -0.015em; }
+.award__d { margin: 0; color: var(--muted); font-size: 0.92em; }
 
 /* ── библиотека ─────────────────────────────────────────────────────────── */
 

@@ -15,7 +15,7 @@ nusathon.com   ──▶ nginx ──▶ /home/inclt/nusathon/
 
 Все команды выполняются на сервере `34.45.82.165`, под root
 (`sudo -i` сразу после подключения). Как подключиться — шаг 2 в
-инструкции INCLT.
+[../bot/README.md](../bot/README.md).
 
 ---
 
