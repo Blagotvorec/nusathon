@@ -321,6 +321,65 @@ button, input, textarea, select { font: inherit; color: inherit; }
 }
 .shot__cap { position: relative; }
 
+/* ── библиотека ─────────────────────────────────────────────────────────── */
+
+/* Горизонтальная лента карточек. Прокрутка родная, со снапом: на телефоне
+   это привычный жест, на десктопе работает трекпад и shift+колесо, и ни одна
+   строчка на это не потрачена. Стрелки не рисуем — их нечем обслуживать без
+   скрипта, а карточка, торчащая за край, и так говорит, что там есть ещё. */
+.lib {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(260px, 22vw);
+  gap: clamp(12px, 1.4vw, 22px);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  padding-bottom: 18px;
+  /* Полоса выходит за поля страницы и упирается в край экрана — так видно,
+     что она продолжается, а не обрывается по колонке текста. */
+  margin-inline: calc(var(--gut) * -1);
+  padding-inline: var(--gut);
+  /* Без этого снап считает началом границу контейнера, а не край поля: первая
+     карточка притягивается под самый край экрана, и браузер молча прокручивает
+     ленту на величину отступа, чтобы это выполнить. */
+  scroll-padding-inline: var(--gut);
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+.lib::-webkit-scrollbar { height: 3px; }
+.lib::-webkit-scrollbar-thumb { background: var(--line); }
+@media (max-width: 620px) { .lib { grid-auto-columns: minmax(230px, 78vw); } }
+
+.card {
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-decoration: none;
+  color: inherit;
+}
+.card__shot {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: var(--ground-2);
+  border: 1px solid var(--line-2);
+  overflow: hidden;
+}
+.card__shot img { width: 100%; height: 100%; object-fit: cover;
+                  transition: transform 0.9s var(--ease); }
+.card:hover .card__shot img { transform: scale(1.04); }
+.card__shot .shot__slot { font-size: 9.5px; }
+.card__kind { color: var(--wood); }
+.card__title { margin: 0; font-weight: 300; font-size: clamp(17px, 1.5vw, 22px);
+               line-height: 1.22; letter-spacing: -0.02em;
+               transition: color 0.3s var(--ease); }
+.card:hover .card__title { color: var(--wood); }
+.card__sum { margin: 0; color: var(--muted); font-size: 0.92em; }
+.card__src { margin: auto 0 0; padding-top: 10px; border-top: 1px solid var(--line-2);
+             color: var(--muted-2); font-family: var(--mono); font-size: 9.5px;
+             letter-spacing: 0.12em; text-transform: uppercase; }
+
 /* ── издания ────────────────────────────────────────────────────────────── */
 
 .eds { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));

@@ -24,10 +24,17 @@
 {
   "@context": "https://schema.org",
   "@type": "Organization",
+  "@id": "https://nusathon.com/#organization",
   "name": "NUSATHON",
   "url": "https://nusathon.com/",
   "logo": "https://nusathon.com/assets/logo.svg",
   "description": "Оператор CLT-панелей и организатор хакатонов по дереву, мебели, модульному жилью и 3D-печати в Индонезии.",
+  "parentOrganization": {
+    "@type": "Organization",
+    "@id": "https://buildinclt.com/#organization",
+    "name": "INCLT",
+    "url": "https://buildinclt.com/"
+  },
   "areaServed": { "@type": "Country", "name": "Indonesia" }
 }
 </script>
@@ -40,6 +47,7 @@
     <a href="#missiya">Миссия</a>
     <a href="#material">Материал</a>
     <a href="#hakatony">Хакатоны</a>
+    <a href="#biblioteka">Библиотека</a>
     <a href="#lenta">Лента</a>
     <span class="langs"><a href="./" aria-current="page">RU</a>&nbsp;/&nbsp;<a href="./en/">EN</a></span>
     <a class="btn btn--solid" href="./apply.html">Присоединиться</a>
@@ -294,6 +302,68 @@
           в обмен на изделие, чертежи или долю первой серии.
         </p>
       </article>
+    </div>
+  </section>
+
+  <section class="sec wrap limit" id="biblioteka">
+    <div class="sec__head">
+      <span class="eyebrow">Библиотека</span>
+      <h2 class="sec__title">Стройте <em>лучше</em>, из дерева.</h2>
+      <p class="sec__note">
+        Руководства, исследования и данные, на которые мы сами опираемся.
+        Всё бесплатно и лежит у первоисточника — мы только собрали в одном
+        месте и сказали, зачем это читать.
+      </p>
+    </div>
+
+    <div class="lib">
+      <a class="card" href="https://www.thinkwood.com/mass-timber-design-manual" target="_blank" rel="noopener">
+        <span class="card__shot"><span class="shot__slot"><span class="shot__cap">Обложка руководства</span></span></span>
+        <span class="card__kind mono">Руководство</span>
+        <h3 class="card__title">Mass Timber Design Manual, Vol. 2</h3>
+        <p class="card__sum">120 страниц по проектированию из массивной древесины: узлы, огнестойкость, акустика, вибрации перекрытий и десять разобранных объектов.</p>
+        <p class="card__src">WoodWorks и Think Wood · бесплатно · EN</p>
+      </a>
+
+      <a class="card" href="https://www.sciencedirect.com/science/article/abs/pii/S0950061820316779" target="_blank" rel="noopener">
+        <span class="card__shot"><span class="shot__slot"><span class="shot__cap">Слои панели из сенгона</span></span></span>
+        <span class="card__kind mono">Исследование</span>
+        <h3 class="card__title">Сенгон и джабон в CLT</h3>
+        <p class="card__sum">Испытания быстрорастущих тропических пород: какие связки слоёв и какие клеи проходят европейский норматив расслоения EN 16351.</p>
+        <p class="card__src">Construction and Building Materials · EN</p>
+      </a>
+
+      <a class="card" href="https://www.nature.com/articles/s41467-025-60245-y" target="_blank" rel="noopener">
+        <span class="card__shot"><span class="shot__slot"><span class="shot__cap">Плантация с высоты</span></span></span>
+        <span class="card__kind mono">Исследование</span>
+        <h3 class="card__title">Массивная древесина, земля и углерод</h3>
+        <p class="card__sum">Что будет, если мир начнёт строить из дерева всерьёз: до 25 Гт CO₂e долгосрочного хранения и 25–39 Гт чистого сокращения выбросов к 2100 году.</p>
+        <p class="card__src">Nature Communications, 2025 · EN</p>
+      </a>
+
+      <a class="card" href="https://www.sciencedirect.com/science/article/pii/S2352710222004958" target="_blank" rel="noopener">
+        <span class="card__shot"><span class="shot__slot"><span class="shot__cap">Сравнение конструкций</span></span></span>
+        <span class="card__kind mono">Данные</span>
+        <h3 class="card__title">Жизненный цикл здания из CLT</h3>
+        <p class="card__sum">Обзор LCA-исследований: на 22% ниже потенциал глобального потепления против бетона, если считать связанный углерод. И где в этих подсчётах слабые места.</p>
+        <p class="card__src">Journal of Building Engineering · EN</p>
+      </a>
+
+      <a class="card" href="https://carbonleadershipforum.org/a-literature-review-on-the-health-impacts-of-wood-and-mass-timber-buildings/" target="_blank" rel="noopener">
+        <span class="card__shot"><span class="shot__slot"><span class="shot__cap">Интерьер с открытым деревом</span></span></span>
+        <span class="card__kind mono">Здоровье</span>
+        <h3 class="card__title">Дерево и человек в помещении</h3>
+        <p class="card__sum">Обзор литературы: внимание, реакция, влажность, запах. И честный раздел про то, чего наука пока не знает.</p>
+        <p class="card__src">Carbon Leadership Forum, 2025 · EN</p>
+      </a>
+
+      <a class="card" href="./apply.html">
+        <span class="card__shot"><span class="shot__slot"><span class="shot__cap">Наш цех</span></span></span>
+        <span class="card__kind mono">Готовится</span>
+        <h3 class="card__title">Сколько стоит CLT в Индонезии</h3>
+        <p class="card__sum">Наш собственный разбор: панель, логистика, оснастка, сроки. Пишем сейчас — подпишитесь, и пришлём, когда выйдет.</p>
+        <p class="card__src">NUSATHON · RU и EN</p>
+      </a>
     </div>
   </section>
 
