@@ -95,18 +95,12 @@ const APPLY_EMAIL = "info@buildinclt.com";
 
 /* ── обратный отсчёт ────────────────────────────────────────────────────── */
 
-(function countdown() {
-  const el = document.querySelector("[data-deadline]");
-  if (!el) return;
+(function countdowns() {
+  const hosts = document.querySelectorAll("[data-deadline]");
+  if (!hosts.length) return;
 
-  const target = new Date(el.dataset.deadline);
-  if (Number.isNaN(target.getTime())) return;   // дата не разобралась — оставляем запасную строку
-
-  const cell = (n, word) =>
-    `<span class="clock__cell"><b>${n}</b><small>${word}</small></span>`;
-
-  // Склонение важнее, чем кажется: «через 21 дней» на главной странице
-  // события читается как небрежность ко всему остальному.
+  // Склонение важнее, чем кажется: «через 21 дней» на странице события
+  // читается как небрежность ко всему остальному на ней.
   const plural = (n, one, few, many) => {
     const m10 = n % 10, m100 = n % 100;
     if (m10 === 1 && m100 !== 11) return one;
@@ -114,23 +108,38 @@ const APPLY_EMAIL = "info@buildinclt.com";
     return many;
   };
 
-  const tick = () => {
-    const left = target - Date.now();
-    if (left <= 0) {
-      el.innerHTML = '<span class="clock__now">Идёт сейчас</span>';
-      return clearInterval(timer);
-    }
-    const d = Math.floor(left / 86400000);
-    const h = Math.floor((left % 86400000) / 3600000);
-    const m = Math.floor((left % 3600000) / 60000);
-    el.innerHTML =
-      cell(d, plural(d, "день", "дня", "дней")) +
-      cell(h, plural(h, "час", "часа", "часов")) +
-      cell(m, plural(m, "минута", "минуты", "минут"));
-  };
+  const timers = [];
 
-  tick();
-  const timer = setInterval(tick, 30000);
+  hosts.forEach((host) => {
+    const target = Date.parse(host.dataset.deadline);
+    if (!Number.isFinite(target)) return;              // дата не разобралась — остаётся запасная строка
+
+    // На странице события отсчёт и есть сам элемент; в карточке он внутри.
+    const box = host.matches(".clock") ? host : host.querySelector(".clock, .card2__clock");
+    if (!box) return;
+    const card = box.classList.contains("card2__clock");
+    const cell = (n, word) =>
+      card ? `<span class="card2__cell"><b>${n}</b><small>${word}</small></span>`
+           : `<span class="clock__cell"><b>${n}</b><small>${word}</small></span>`;
+
+    const tick = () => {
+      const left = target - Date.now();
+      if (left <= 0) {
+        box.innerHTML = '<span class="clock__now">Идёт сейчас</span>';
+        return true;
+      }
+      const d = Math.floor(left / 86400000);
+      const h = Math.floor((left % 86400000) / 3600000);
+      const m = Math.floor((left % 3600000) / 60000);
+      box.innerHTML =
+        cell(d, plural(d, "день", "дня", "дней")) +
+        cell(h, plural(h, "час", "часа", "часов")) +
+        (card ? "" : cell(m, plural(m, "минута", "минуты", "минут")));
+      return false;
+    };
+
+    if (!tick()) timers.push(setInterval(() => { if (tick()) timers.forEach(clearInterval); }, 30000));
+  });
 })();
 
 /* ── the application form ───────────────────────────────────────────────── */

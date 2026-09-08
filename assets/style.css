@@ -518,169 +518,161 @@ button, input, textarea, select { font: inherit; color: inherit; }
 }
 .lede__slogan em { font-style: normal; color: var(--fg); }
 
-/* ── расписание тонов ────────────────────────────────────────────────────── */
+/* ── доска: два приглашения и открытые направления ───────────────────────── */
 
-/* Не таблица дат, а одна ось на всех. Строки её делят, поэтому видно то, чего
-   в колонке с датой не увидеть: какие тоны идут внахлёст, где пусто и как
-   близко ближайший старт. Позиции считает скрипт из самих дат — новая строка
-   встаёт на место сама.
+/* Список строк информировал, но не звал: живой тон выглядел ровно как мёртвый,
+   действия не было ни одного, а пустые строки численно забивали активные.
+   Здесь иерархия по состоянию — то, куда можно попасть прямо сейчас, занимает
+   почти весь экран и заканчивается кнопкой; всё остальное сжато в одну строку
+   внизу. */
 
-   Ось — главная колонка и забирает всё свободное место; имя ограничено, иначе
-   на широком экране оно растягивается на пол-страницы, а дорожка сжимается в
-   огрызок, и весь смысл раскладки пропадает. */
-
-.sched {
-  --cols: minmax(8rem, 17rem) minmax(0, 1fr) 5.5rem;
-  --colgap: clamp(14px, 2.2vw, 40px);
-  position: relative;
+.board {
+  display: grid;
+  gap: clamp(12px, 1.8vh, 22px);
   min-height: 0;
 }
 
-.sched__axis {
+.cards {
   display: grid;
-  grid-template-columns: var(--cols);
-  gap: var(--colgap);
-  height: clamp(16px, 2.3vh, 26px);
-}
-.sched__lane { grid-column: 2; position: relative; border-bottom: 1px solid var(--line-2); }
-.sched__tick {
-  position: absolute; bottom: 6px; transform: translateX(-50%);
-}
-.sched__tick:first-child {
-  transform: none;
-}
-.sched__tick:first-child::after { left: 0; }
-.sched__tick {
-  font-family: var(--mono); font-size: 9px; letter-spacing: 0.16em;
-  text-transform: uppercase; color: var(--muted-2); white-space: nowrap;
-}
-.sched__tick::after {
-  content: ""; position: absolute; left: 50%; top: 100%;
-  width: 1px; height: 6px; background: var(--line);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: clamp(12px, 1.4vw, 22px);
+  min-height: 0;
 }
 
-/* Линия «сегодня» — то, что превращает набор полосок в расписание: всё, что
-   слева от неё, уже позади. Ставится скриптом в пикселях, потому что должна
-   попасть внутрь колонки оси, а не всей строки. */
-.sched__today {
-  position: absolute; top: clamp(14px, 2vh, 20px); bottom: 0; width: 1px;
-  background: linear-gradient(180deg, var(--wood) 0%, rgba(198,154,101,0.15) 100%);
-  pointer-events: none; z-index: 2;
-}
-.sched__today::before {
-  content: "сегодня"; position: absolute; top: -13px; left: 50%;
-  transform: translateX(-50%);
-  font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.16em;
-  text-transform: uppercase; color: var(--wood);
-}
-
-/* ── строка ──────────────────────────────────────────────────────────────── */
-
-.trow {
+.card2 {
   position: relative;
-  display: grid;
-  grid-template-columns: var(--cols);
-  gap: var(--colgap);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 1.3vh, 16px);
+  padding: clamp(16px, 2.4vh, 30px) clamp(16px, 1.9vw, 30px);
+  border-radius: 20px;
+  /* Свет по верхней грани — выпуклость; тень снизу на чёрном читалась бы
+     грязью. Второй слой — тёплое зарево из угла, чтобы карточка не была
+     плоской заливкой. */
+  background:
+    radial-gradient(120% 90% at 88% -10%, rgba(198,154,101,0.16), transparent 58%),
+    linear-gradient(180deg, rgba(242,239,232,0.055), rgba(242,239,232,0.012));
+  box-shadow: inset 0 1px 0 rgba(242,239,232,0.12);
+  transition: box-shadow 0.45s var(--ease), transform 0.45s var(--ease);
+}
+.card2:hover {
+  transform: translateY(-2px);
+  box-shadow: inset 0 1px 0 rgba(242,239,232,0.22), 0 0 40px rgba(198,154,101,0.12);
+}
+
+/* Знак семейства водяным знаком: даёт карточке глубину и не спорит с текстом. */
+.card2::after {
+  content: "";
+  position: absolute;
+  right: -6%;
+  bottom: -14%;
+  width: clamp(120px, 15vw, 210px);
+  aspect-ratio: 1;
+  background: currentColor;
+  opacity: 0.04;
+  pointer-events: none;
+  -webkit-mask: url("./logo.svg") center / contain no-repeat;
+          mask: url("./logo.svg") center / contain no-repeat;
+}
+
+.pill {
+  align-self: start;
+  display: inline-flex;
   align-items: center;
-  padding: clamp(5px, 0.85vh, 15px) clamp(10px, 1.2vw, 18px);
-  margin-inline: clamp(-10px, -1.2vw, -18px);
-  border-radius: 12px;
-  /* Объём на чёрном делается светом сверху, а не тенью снизу: волосок света
-     по верхней грани и уход в темноту читаются как выпуклость, тень — как
-     грязь под элементом. */
-  background: linear-gradient(180deg, rgba(242,239,232,0.045), rgba(242,239,232,0.008));
-  box-shadow: inset 0 1px 0 rgba(242,239,232,0.08);
-  transition: background 0.4s var(--ease), box-shadow 0.4s var(--ease);
-}
-.trow + .trow { margin-top: clamp(2px, 0.55vh, 7px); }
-.trow:hover {
-  background: linear-gradient(180deg, rgba(242,239,232,0.10), rgba(242,239,232,0.02));
-  box-shadow: inset 0 1px 0 rgba(242,239,232,0.18);
-}
-.trow--vacant { background: none; box-shadow: inset 0 1px 0 rgba(242,239,232,0.035); }
-.trow--vacant:hover { background: linear-gradient(180deg, rgba(242,239,232,0.05), transparent); }
-
-.trow__name { margin: 0; font-weight: 300; letter-spacing: -0.025em; line-height: 1.08;
-              font-size: clamp(15px, min(1.75vw, 2.6vh), 27px); }
-.trow__name a { color: inherit; text-decoration: none; transition: color 0.3s var(--ease); }
-.trow__name em { font-style: normal; color: var(--wood); }
-.trow__name a:hover { color: var(--wood); }
-.trow--vacant .trow__name { color: var(--muted); }
-.trow__parent { display: block; margin-top: clamp(2px, 0.4vh, 4px); font-family: var(--mono);
-                font-size: clamp(8px, 0.66vw, 9.5px); letter-spacing: 0.13em;
-                text-transform: uppercase; color: var(--muted-2); }
-.trow__parent a { color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--line-2); }
-.trow__parent a:hover { color: var(--wood); border-bottom-color: var(--wood); }
-
-/* ── дорожка и полоса ────────────────────────────────────────────────────── */
-
-.trow__track {
-  position: relative;
-  height: clamp(8px, 1.25vh, 12px);
+  gap: 0.6em;
+  padding: 0.45em 0.9em;
+  border: 1px solid rgba(159,178,127,0.45);
   border-radius: 999px;
-  background: rgba(0,0,0,0.4);
-  box-shadow: inset 0 1px 2px rgba(0,0,0,0.55), inset 0 -1px 0 rgba(242,239,232,0.05);
+  font-family: var(--mono);
+  font-size: clamp(8px, 0.66vw, 9.5px);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--leaf);
 }
-.trow--vacant .trow__track {
-  background: none; box-shadow: none;
-  border: 1px dashed rgba(242,239,232,0.12);
+.pill__dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--leaf);
+  box-shadow: 0 0 0 0 rgba(159,178,127,0.6);
+  animation: pulse 2.4s var(--ease) infinite;
 }
-.trow__bar {
-  position: absolute; top: 2px; bottom: 2px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, rgba(142,97,61,0.75), var(--wood) 88%, #e7c79a);
-  box-shadow: 0 0 14px rgba(198,154,101,0.4);
-  transition: box-shadow 0.4s var(--ease);
+@keyframes pulse {
+  70%  { box-shadow: 0 0 0 7px rgba(159,178,127,0); }
+  100% { box-shadow: 0 0 0 0 rgba(159,178,127,0); }
 }
-.trow:hover .trow__bar { box-shadow: 0 0 24px rgba(198,154,101,0.7); }
-/* День старта — правый конец полосы и самая важная точка всей строки. */
-.trow__bar::after {
-  content: ""; position: absolute; right: -4px; top: 50%;
-  width: clamp(9px, 1.4vh, 13px); aspect-ratio: 1;
-  transform: translateY(-50%); border-radius: 50%;
-  background: var(--fg); box-shadow: 0 0 12px rgba(242,239,232,0.55);
+
+.card2__name {
+  margin: 0;
+  font-weight: 200;
+  font-size: clamp(28px, min(4.2vw, 6vh), 66px);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
 }
-.trow__when {
-  position: absolute; top: calc(100% + 3px); transform: translateX(-50%);
+.card2__name em { font-style: normal; color: var(--wood); }
+.card2__what {
+  margin: 0;
+  color: var(--muted);
+  max-width: 34ch;
+  font-size: clamp(13px, min(1.05vw, 1.8vh), 17px);
+  line-height: 1.4;
+}
+
+/* Отсчёт — то, что превращает «когда-нибудь» в «через двадцать девять дней». */
+.card2__clock { display: flex; gap: clamp(14px, 1.8vw, 30px); margin-top: auto; }
+.card2__cell b {
+  display: block; font-weight: 200;
+  font-size: clamp(24px, min(3vw, 4.6vh), 52px);
+  line-height: 1; letter-spacing: -0.04em; color: var(--fg);
+  font-variant-numeric: tabular-nums;
+}
+.card2__cell small {
+  font-family: var(--mono); font-size: clamp(7.5px, 0.6vw, 9px);
+  letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted-2);
+}
+.card2__meta {
+  display: flex; flex-wrap: wrap; gap: 0.5em 1.2em;
   font-family: var(--mono); font-size: clamp(8px, 0.66vw, 9.5px);
-  letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg); white-space: nowrap;
+  letter-spacing: 0.13em; text-transform: uppercase; color: var(--muted-2);
 }
-.trow__ghost {
-  position: absolute; inset: 0; display: grid; place-items: center;
-  font-family: var(--mono); font-size: clamp(7.5px, 0.62vw, 9px);
+.card2__meta a { color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--line-2); }
+.card2__meta a:hover { color: var(--wood); border-bottom-color: var(--wood); }
+
+/* Кнопка во всю ширину карточки: на неё нельзя не наткнуться, и она одна. */
+.card2 .btn {
+  justify-content: center;
+  width: 100%;
+  padding: clamp(0.8em, 1.5vh, 1.1em) 1.5em;
+}
+
+/* ── открытые направления ────────────────────────────────────────────────── */
+
+.open {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(8px, 1vw, 14px);
+  padding: clamp(10px, 1.5vh, 18px) clamp(14px, 1.6vw, 22px);
+  border-radius: 16px;
+  border: 1px dashed rgba(242,239,232,0.14);
+}
+.open__label {
+  font-family: var(--mono); font-size: clamp(8px, 0.66vw, 9.5px);
   letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted-2);
+  margin-right: 0.4em;
 }
-
-/* ── счётчик ─────────────────────────────────────────────────────────────── */
-
-.trow__meta { display: grid; justify-items: end; gap: 1px; }
-.trow__count { font-family: var(--mono); font-size: clamp(13px, 1.7vh, 18px);
-               color: var(--fg); font-variant-numeric: tabular-nums; }
-.trow__count[data-count="0"] { color: var(--muted-2); }
-.trow__unit { font-family: var(--mono); font-size: clamp(7.5px, 0.6vw, 9px);
-              letter-spacing: 0.13em; text-transform: uppercase; color: var(--muted-2); }
-.trow__go { font-family: var(--mono); font-size: 15px; color: var(--wood);
-            display: inline-block; transition: transform 0.4s var(--ease); }
-.trow--open:hover .trow__go { transform: translateX(4px); }
-
-/* Восемь строк с осью времени на телефоне честно не помещаются, а сжимать их
-   дальше значит сделать нечитаемыми. Там страница прокручивается — это меньшее
-   зло, чем шрифт в восемь пикселей. */
-@media (max-width: 900px), (max-height: 640px) {
-  .screen { overflow: auto; }
-  .stage { height: auto; min-height: 100svh; overflow: visible; }
-  .one { justify-content: flex-start; }
-  .sched { --cols: minmax(0, 1fr) auto; }
-  /* Отрицательные поля — приём для широкого экрана: там подложка строки
-     заходит в поля страницы. На телефоне полей почти нет, и этот же приём
-     вылезает за край. */
-  .trow { margin-inline: 0; }
-  .sched__axis { display: none; }
-  .sched__today { display: none; }
-  .trow { row-gap: 16px; }
-  .trow__track { grid-column: 1 / -1; }
-  .trow__when { top: calc(100% + 4px); }
+.chip {
+  display: inline-flex; align-items: center; gap: 0.5em;
+  padding: 0.5em 0.95em;
+  border: 1px solid var(--line-2); border-radius: 999px;
+  color: var(--muted); text-decoration: none;
+  font-family: var(--mono); font-size: clamp(8.5px, 0.7vw, 10px);
+  letter-spacing: 0.12em; text-transform: uppercase;
+  transition: border-color 0.3s var(--ease), color 0.3s var(--ease), background 0.3s var(--ease);
 }
+.chip:hover { border-color: var(--wood); color: var(--fg); background: rgba(198,154,101,0.08); }
+.chip--soon { border-style: solid; color: var(--wood); border-color: rgba(198,154,101,0.4); }
+.open__cta { margin-left: auto; }
+@media (max-width: 720px) { .open__cta { margin-left: 0; width: 100%; justify-content: center; } }
 
 /* ── библиотека ─────────────────────────────────────────────────────────── */
 
