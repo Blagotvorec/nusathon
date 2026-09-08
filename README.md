@@ -66,4 +66,6 @@ python3 -m http.server 5174 --directory nusathon
 
 ## Домены
 
-`nusathon.com` — основной, `modulthon.com` — 301 на него.
+`nusathon.com` — этот портал. `modulthon.com` — отдельный проект,
+он живёт в `../modulthon/` и с 8 сентября 2026 отдаёт свой сайт, а не
+редирект сюда.

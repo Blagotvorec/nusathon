@@ -105,7 +105,7 @@ server {
         add_header Cache-Control "public, must-revalidate";
     }
 
-    location ~ ^/(index|apply)\.html$ {
+    location ~* \.html$ {
         add_header Cache-Control "no-cache";
     }
 
@@ -116,12 +116,6 @@ server {
     }
 }
 
-# Имя издания, а не отдельный сайт: Modulthon живёт внутри платформы.
-server {
-    listen 80;
-    server_name modulthon.com www.modulthon.com;
-    return 301 https://nusathon.com$request_uri;
-}
 ```
 
 Сохраните (**Ctrl+O**, Enter, **Ctrl+X**) и включите:
