@@ -7,8 +7,11 @@
 
 ```
 nusathon.com   ──▶ nginx ──▶ /home/inclt/inclt-webapp/nusathon/
-modulthon.com  ──▶ nginx ──▶ 301 на nusathon.com
 ```
+
+> `modulthon.com` больше не редирект сюда — с 8 сентября 2026 у него
+> собственный сайт, см. [../modulthon/DEPLOY.md](../modulthon/DEPLOY.md).
+> Блок с `return 301` из конфига убран там же, шагом 2.
 
 Все команды выполняются на сервере `34.45.82.165`, под root
 (`sudo -i` сразу после подключения). Как подключиться — шаг 2 в
