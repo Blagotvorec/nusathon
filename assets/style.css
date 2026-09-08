@@ -186,14 +186,75 @@ button, input, textarea, select { font: inherit; color: inherit; }
 }
 .hero__title em { font-style: normal; color: var(--wood); }
 
-/* Половина слова, которая меняется: -THON стоит, к нему приставляется всё
-   остальное. */
+/* ── смена имени в знаке ─────────────────────────────────────────────────── */
+
+/* -THON стоит неподвижно, меняется только приставка. Три вещи, ради которых
+   это написано подробнее, чем «сменить текст»:
+
+   1. Буквы уходят и приходят по одной, с задержкой по индексу. Одновременная
+      смена читается как подмена картинки; волна читается как набор — что и
+      происходит, слой за слоем, как в самой панели.
+   2. Ширина приставки анимируется отдельно. Слова разной длины (API — три
+      буквы, HACKA — пять), и без этого -THON дёргался бы влево-вправо на
+      каждой смене, а он обязан стоять как вкопанный.
+   3. Приходящая буква вспыхивает светлее и садится в древесный. Это занимает
+      треть секунды и делает смену событием, а не морганием. */
+
 .hero__cycle {
-  display: inline-block;
+  display: inline-flex;
+  position: relative;
   color: var(--wood);
-  transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
+  perspective: 620px;                    /* без него поворот букв плоский */
+  transition: width 0.52s var(--ease);
+  will-change: width;
+  /* Без этого заданная ширина не работает вовсе: у флекс-элемента min-width
+     равен auto, то есть содержимому, и коробка всегда шире назначенного —
+     ширине нечего анимировать, а -THON дёргается на каждой смене. */
+  min-width: 0;
+  /* Пока коробка едет к новой ширине, буквы длиннее её и лезли бы под -THON.
+     clip вместо hidden — с запасом по вертикали, чтобы поворот и подъём букв
+     остались видны, а горизонтальный вылет обрезался. */
+  overflow: clip;
+  overflow-clip-margin: 0.55em;
+  /* Запас на случай, где overflow-clip-margin не поддержан (Safari до 16):
+     там clip режет по границе поля, и подъём букв срезало бы. Внутренний
+     отступ поднимает границу, отрицательное поле возвращает раскладку на
+     место — вертикального сдвига не остаётся. */
+  padding-block: 0.55em;
+  margin-block: -0.55em;
 }
-.hero__cycle[data-out] { opacity: 0; transform: translateY(-0.12em); }
+.hero__cycle > span { display: inline-block; transform-origin: 50% 100%; }
+
+/* Невидимый двойник: по нему меряется ширина следующего слова до того, как
+   оно появится на экране. Иначе ширину не к чему анимировать. */
+.hero__ghost {
+  position: fixed; left: -9999px; top: 0;
+  visibility: hidden; pointer-events: none; white-space: pre;
+}
+
+.cyc-out { animation: cyc-out 0.30s cubic-bezier(0.4, 0, 1, 1) forwards;
+           animation-delay: calc(var(--i) * 26ms); }
+.cyc-in  { animation: cyc-in 0.48s var(--ease) backwards;
+           animation-delay: calc(var(--i) * 32ms); }
+
+@keyframes cyc-out {
+  to { opacity: 0; transform: translateY(-0.34em) rotateX(72deg); }
+}
+@keyframes cyc-in {
+  0%   { opacity: 0; transform: translateY(0.36em) rotateX(-74deg); }
+  55%  { opacity: 1; color: #f4e0c0; text-shadow: 0 0 26px rgba(240, 214, 170, 0.55); }
+  100% { opacity: 1; transform: none; color: var(--wood); text-shadow: none; }
+}
+
+/* Тем, кто просил меньше движения, семейство всё равно нужно показать —
+   поэтому слова продолжают меняться, но просто проступают. */
+@media (prefers-reduced-motion: reduce) {
+  .hero__cycle { transition: none; }
+  .cyc-out { animation: cyc-fade-out 0.2s linear forwards; animation-delay: 0s; }
+  .cyc-in  { animation: cyc-fade-in 0.2s linear backwards; animation-delay: 0s; }
+  @keyframes cyc-fade-out { to { opacity: 0; } }
+  @keyframes cyc-fade-in { from { opacity: 0; } }
+}
 
 .hero__lede {
   max-width: 52ch;

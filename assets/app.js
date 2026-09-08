@@ -24,20 +24,114 @@ const APPLY_EMAIL = "info@buildinclt.com";
   const el = document.querySelector("[data-cycle]");
   if (!el) return;
 
-  // -THON never moves; only what is bolted to the front of it does.
-  const words = ["MEBEL", "MODUL", "PRIN", "REKA", "AGRO", "CODE"];
-  const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (still) return;
+  // Всё семейство. -THON приставляется к каждому: HACKA+THON = HACKATHON.
+  const words = ["MODUL", "PRIN", "MEBEL", "AGRO", "API", "CODE", "HACKA"];
+
+  const HOLD = 2100;      // сколько слово стоит
+  const DEAL = 430;       // шаг вступительной раздачи
+  const OUT = 300;        // длительность ухода буквы
+  const STAGGER = 26;     // задержка между буквами
+
+  const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Линейка для замера следующего слова. Живёт в body, а не внутри знака:
+  // внутри её текст попадал в содержимое страницы, и знак читался как
+  // «CODECODETHON» — и людьми через выделение, и поисковиком.
+  const ghost = document.createElement("span");
+  ghost.className = "hero__ghost";
+  ghost.setAttribute("aria-hidden", "true");
+  document.body.appendChild(ghost);
+
+  // Кегль знака задан через clamp с vw и vh, поэтому меняется вместе с окном —
+  // линейку приходится подгонять перед каждым замером, а не один раз.
+  const matchFont = () => {
+    const cs = getComputedStyle(el);
+    ghost.style.font = cs.font;
+    ghost.style.letterSpacing = cs.letterSpacing;
+    ghost.style.textTransform = cs.textTransform;
+  };
+
+  const letters = (word, cls) =>
+    word
+      .split("")
+      .map((ch, i) => `<span class="${cls}" style="--i:${i}">${ch}</span>`)
+      .join("");
+
+  // Ширину следующего слова надо знать заранее: -THON стоит на месте только
+  // потому, что приставка едет к своей новой ширине, а не прыгает в неё.
+  const widthOf = (word) => {
+    matchFont();
+    ghost.textContent = word;
+    return ghost.getBoundingClientRect().width;
+  };
 
   let i = 0;
-  setInterval(() => {
-    el.dataset.out = "";                       // fade out
+  let busy = false;
+
+  const paint = (word) => {
+    el.style.width = widthOf(word) + "px";
+    el.insertAdjacentHTML("afterbegin", letters(word, "cyc-in"));
+  };
+
+  const swap = (word) => {
+    if (busy) return;
+    busy = true;
+
+    const old = [...el.querySelectorAll("span")];
+    old.forEach((s, n) => {
+      s.className = "cyc-out";
+      s.style.setProperty("--i", n);
+    });
+
+    // Уходящие буквы держат место, пока не закончится последняя из них.
+    const gone = OUT + STAGGER * Math.max(0, old.length - 1);
     setTimeout(() => {
+      old.forEach((s) => s.remove());
+      paint(word);
+      busy = false;
+    }, still ? 200 : gone);
+  };
+
+  // Первый показ: быстрая раздача всех имён подряд. Иначе половину семейства
+  // просто не досматривают — на спокойном ходу полный круг идёт двадцать
+  // секунд, и Apithon с Hackathon никто никогда не видит.
+  const settle = () => {
+    let hidden = false;
+    document.addEventListener("visibilitychange", () => {
+      hidden = document.hidden;                 // в скрытой вкладке не крутим
+    });
+    let paused = false;
+    el.closest(".hero__mark")?.addEventListener("pointerenter", () => (paused = true));
+    el.closest(".hero__mark")?.addEventListener("pointerleave", () => (paused = false));
+
+    setInterval(() => {
+      if (hidden || paused) return;
       i = (i + 1) % words.length;
-      el.textContent = words[i];
-      delete el.dataset.out;                   // fade the new word back in
-    }, 400);                                   // matches the CSS transition
-  }, 2600);
+      swap(words[i]);
+    }, HOLD + OUT);
+  };
+
+  el.textContent = "";
+  paint(words[0]);
+
+  // Ширина слова зависит от кегля, а кегль — от размеров окна.
+  addEventListener("resize", () => {
+    const now = [...el.querySelectorAll("span")].map((x) => x.textContent).join("");
+    if (now) el.style.width = widthOf(now) + "px";
+  }, { passive: true });
+
+  if (still) return settle();
+
+  const deal = setInterval(() => {
+    i += 1;
+    if (i >= words.length) {
+      clearInterval(deal);
+      i = words.length - 1;
+      setTimeout(settle, HOLD);
+      return;
+    }
+    swap(words[i]);
+  }, DEAL);
 })();
 
 /* ── расписание тонов ───────────────────────────────────────────────────── */
