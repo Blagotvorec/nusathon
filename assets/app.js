@@ -25,7 +25,7 @@ const APPLY_EMAIL = "info@buildinclt.com";
   if (!el) return;
 
   // Всё семейство. -THON приставляется к каждому: HACKA+THON = HACKATHON.
-  const words = ["MODUL", "PRIN", "MEBEL", "AGRO", "API", "HACKA"];
+  const words = ["MODUL", "PRINTA", "MEBEL", "AGRO", "API", "HACKA"];
 
   const HOLD = 2100;      // сколько слово стоит
   const DEAL = 430;       // шаг вступительной раздачи
@@ -282,12 +282,17 @@ const APPLY_EMAIL = "info@buildinclt.com";
 
     // The browser's own validation is better than anything worth writing here,
     // and it puts the message next to the field that is wrong.
+    const tg = form.elements.telegram;
+    const wa = form.elements.whatsapp;
+    // «Обязательно одно из двух» разметкой не выражается: required на обоих
+    // потребовал бы оба, а у большинства есть только один мессенджер.
+    const noContact = !tg.value.trim() && !wa.value.trim();
+    tg.setCustomValidity(noContact ? "Оставьте Telegram или WhatsApp — туда мы и ответим" : "");
     if (!form.reportValidity()) return;
 
     const data = new FormData(form);
     const application = {
       name: data.get("name")?.trim(),
-      email: data.get("email")?.trim(),
       role: data.get("role"),
       city: data.get("city")?.trim(),
       studio: data.get("studio")?.trim(),
@@ -296,8 +301,15 @@ const APPLY_EMAIL = "info@buildinclt.com";
       edition: data.getAll("edition").join(", "),
       mode: data.getAll("mode").join(", "),
       idea: data.get("idea")?.trim(),
-      contact: data.get("telegram")?.trim(),
-      thon: data.getAll("edition").join(", ") || "NUSATHON",
+      telegram: data.get("telegram")?.trim(),
+      whatsapp: data.get("whatsapp")?.trim(),
+      // Тон берётся из адреса, если человек пришёл со страницы события:
+      // иначе заявка с Printathon подписывается тем, что он угадает в
+      // галочках, и в группе не видно, откуда она.
+      thon:
+        new URLSearchParams(location.search).get("thon") ||
+        data.getAll("edition").join(", ") ||
+        "NUSATHON",
       page: location.href,
     };
 

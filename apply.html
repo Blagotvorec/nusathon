@@ -60,8 +60,8 @@
           <input id="name" name="name" type="text" autocomplete="name" required>
         </p>
         <p class="field">
-          <label for="email">Почта</label>
-          <input id="email" name="email" type="email" autocomplete="email" required>
+          <label for="city">Город и страна</label>
+          <input id="city" name="city" type="text" autocomplete="address-level2" required>
         </p>
       </div>
 
@@ -84,29 +84,40 @@
           </select>
         </p>
         <p class="field">
-          <label for="city">Город и страна</label>
-          <input id="city" name="city" type="text" autocomplete="address-level2" required>
+          <label for="studio">Бюро или компания</label>
+          <input id="studio" name="studio" type="text" placeholder="Пусто, если сами по себе">
         </p>
       </div>
 
       <div class="pair">
         <p class="field">
-          <label for="studio">Бюро или компания</label>
-          <input id="studio" name="studio" type="text" placeholder="Пусто, если сами по себе">
+          <label for="telegram">Telegram</label>
+          <input id="telegram" name="telegram" type="text" placeholder="@ник">
         </p>
         <p class="field">
-          <label for="link">Портфолио, Instagram или сайт</label>
-          <input id="link" name="link" type="url" inputmode="url" placeholder="https://">
+          <label for="whatsapp">WhatsApp</label>
+          <input id="whatsapp" name="whatsapp" type="text" inputmode="tel" placeholder="+62…">
         </p>
       </div>
+      <p class="field__hint" id="contact-hint" style="margin:-14px 0 0">
+        Достаточно одного из двух — туда и ответим. Почту не спрашиваем: весь
+        хакатон живёт в мессенджере.
+      </p>
+
+      <p class="field">
+        <label for="link">Портфолио, Instagram или сайт</label>
+        <input id="link" name="link" type="url" inputmode="url" placeholder="https://">
+      </p>
 
       <fieldset class="field" style="border:0;padding:0;margin:0;">
         <legend class="label" style="padding:0 0 10px;">Какой хакатон</legend>
         <span class="checks">
-          <label class="check"><input type="checkbox" name="edition" value="Mebelthon"><span>Mebelthon — мебель</span></label>
           <label class="check"><input type="checkbox" name="edition" value="Modulthon"><span>Modulthon — модульное жильё</span></label>
-          <label class="check"><input type="checkbox" name="edition" value="Rekathon"><span>Rekathon — открытый бриф</span></label>
-          <label class="check"><input type="checkbox" name="edition" value="Printthon"><span>Printthon — 3D-печать</span></label>
+          <label class="check"><input type="checkbox" name="edition" value="Printathon"><span>Printathon — 3D-печать</span></label>
+          <label class="check"><input type="checkbox" name="edition" value="Mebelthon"><span>Mebelthon — мебель</span></label>
+          <label class="check"><input type="checkbox" name="edition" value="Agrothon"><span>Agrothon — агро</span></label>
+          <label class="check"><input type="checkbox" name="edition" value="Apithon"><span>Apithon — пчеловодство</span></label>
+          <label class="check"><input type="checkbox" name="edition" value="Hackathon"><span>Hackathon — код и ИТ</span></label>
         </span>
       </fieldset>
 
@@ -125,12 +136,6 @@
         <label for="idea">Что бы вы сделали и что для этого нужно?</label>
         <textarea id="idea" name="idea" rows="5" required
           placeholder="Нескольких предложений достаточно. Материал, станок или человек, которого вам не хватает, полезнее для нас, чем концепция."></textarea>
-      </p>
-
-      <p class="field">
-        <label for="telegram">Telegram или WhatsApp</label>
-        <input id="telegram" name="telegram" type="text" placeholder="@ник или +62…" required>
-        <span class="field__hint">Обязательно: сам хакатон живёт именно там, и отвечаем мы туда же.</span>
       </p>
 
       <div class="form__foot">
