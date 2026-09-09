@@ -370,3 +370,53 @@ function openJoin() {
 document.addEventListener("click", (event) => {
   if (event.target.closest("[data-open-join]")) openJoin();
 });
+
+/* ── заявка под конкретный тон ───────────────────────────────────────────── */
+
+/* Форма одна на все тоны, но пришедший со страницы события не должен видеть
+   вопросы, ответ на которые уже известен: какой это хакатон и что человек
+   собирается делать, если задание там открывается только в день старта.
+   Общий текст лежит в разметке и работает без скрипта; здесь он лишь
+   уточняется под тон из адреса. */
+
+const THON_VARIANTS = {
+  Printathon: {
+    title: "Это заявка на <em>Printathon</em>.",
+    lede:
+      "Встретимся и вместе разберёмся, как проектировать большие модели под " +
+      "печать. Порога по портфолио нет, взноса нет — нужен только интерес " +
+      "к тому, что печатается крупнее стола.",
+    steps: [
+      "Заявки читаем сами, отвечаем в течение недели.",
+      "Вся информация — в Telegram-канале Printathon, и она же дублируется " +
+        "в группе WhatsApp. Доступ к обоим придёт сразу после регистрации.",
+      "С командами, чью работу хочется продолжать, работаем дальше — заказы, " +
+        "серии и проекты, выросшие отсюда.",
+    ],
+    hide: ["apply-edition", "apply-idea"],
+  },
+};
+
+(function tailorApplication() {
+  const which = new URLSearchParams(location.search).get("thon");
+  const variant = THON_VARIANTS[which];
+  if (!variant) return;
+
+  const title = document.getElementById("apply-title");
+  const lede = document.getElementById("apply-lede");
+  const steps = document.getElementById("apply-steps");
+
+  if (title) title.innerHTML = variant.title;
+  if (lede) lede.textContent = variant.lede;
+  if (steps) steps.innerHTML = variant.steps.map((s) => `<li>${s}</li>`).join("");
+
+  for (const id of variant.hide ?? []) {
+    const box = document.getElementById(id);
+    if (!box) continue;
+    box.hidden = true;
+    // Обязательное поле, спрятанное вместе с блоком, останавливает отправку
+    // сообщением, которое некуда показать: браузер не может навести фокус на
+    // невидимый элемент. Требование снимается вместе с самим вопросом.
+    box.querySelectorAll("[required]").forEach((el) => (el.required = false));
+  }
+})();

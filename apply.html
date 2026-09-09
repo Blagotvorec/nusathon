@@ -35,15 +35,15 @@
 
   <aside class="aside">
     <span class="eyebrow">Заявка</span>
-    <h1>Расскажите, что бы вы сделали.</h1>
-    <p>
+    <h1 id="apply-title">Расскажите, что бы вы сделали.</h1>
+    <p id="apply-lede">
       Порога по портфолио нет, взноса нет. Мы читаем ради одного: может ли
       описанное вами к вечеру воскресенья стоять в зале.
     </p>
 
     <div class="aside__after">
       <span class="label" style="display:block;margin-bottom:14px;">Что дальше</span>
-      <ol>
+      <ol id="apply-steps">
         <li>Заявки читаем сами, отвечаем в течение недели.</li>
         <li>Короткий созвон — двадцать минут, договориться, что именно вы делаете.</li>
         <li>За две недели до события: бриф, список материала и состав команды.</li>
@@ -109,7 +109,7 @@
         <input id="link" name="link" type="url" inputmode="url" placeholder="https://">
       </p>
 
-      <fieldset class="field" style="border:0;padding:0;margin:0;">
+      <fieldset class="field" id="apply-edition" style="border:0;padding:0;margin:0;">
         <legend class="label" style="padding:0 0 10px;">Какой хакатон</legend>
         <span class="checks">
           <label class="check"><input type="checkbox" name="edition" value="Modulthon"><span>Modulthon — модульное жильё</span></label>
@@ -132,7 +132,7 @@
         </span>
       </fieldset>
 
-      <p class="field">
+      <p class="field" id="apply-idea">
         <label for="idea">Что бы вы сделали и что для этого нужно?</label>
         <textarea id="idea" name="idea" rows="5" required
           placeholder="Нескольких предложений достаточно. Материал, станок или человек, которого вам не хватает, полезнее для нас, чем концепция."></textarea>

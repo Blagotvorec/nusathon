@@ -1031,6 +1031,9 @@ button, input, textarea, select { font: inherit; color: inherit; }
 @media (max-width: 900px) { .aside { position: static; } }
 .aside h1 { margin: 0; font-weight: 200; font-size: clamp(32px, 4.8vw, 68px);
             line-height: 1; letter-spacing: -0.04em; }
+/* em на этом сайте — акцент цветом, а не наклоном: курсив здесь выглядел бы
+   цитатой, а не выделенным именем. */
+.aside h1 em { font-style: normal; color: var(--wood); }
 .aside p { color: var(--muted); max-width: 42ch; }
 .aside__after { margin-top: clamp(28px, 3.6vw, 46px); padding-top: 22px; border-top: 1px solid var(--line-2); }
 .aside__after ol { margin: 0; padding: 0; list-style: none; counter-reset: step; }
