@@ -13,7 +13,7 @@
  *  with no server at all. Point it at an endpoint (the INCLT API already has
  *  /api/waitlist) and the same form posts JSON there instead, with no other
  *  change to the page. */
-const APPLY_ENDPOINT = null;
+const APPLY_ENDPOINT = "/api/thon";
 
 /** Fallback address, used when APPLY_ENDPOINT is null. */
 const APPLY_EMAIL = "info@buildinclt.com";
@@ -25,7 +25,7 @@ const APPLY_EMAIL = "info@buildinclt.com";
   if (!el) return;
 
   // Всё семейство. -THON приставляется к каждому: HACKA+THON = HACKATHON.
-  const words = ["MODUL", "PRIN", "MEBEL", "AGRO", "API", "CODE", "HACKA"];
+  const words = ["MODUL", "PRIN", "MEBEL", "AGRO", "API", "HACKA"];
 
   const HOLD = 2100;      // сколько слово стоит
   const DEAL = 430;       // шаг вступительной раздачи
@@ -296,7 +296,8 @@ const APPLY_EMAIL = "info@buildinclt.com";
       edition: data.getAll("edition").join(", "),
       mode: data.getAll("mode").join(", "),
       idea: data.get("idea")?.trim(),
-      telegram: data.get("telegram")?.trim(),
+      contact: data.get("telegram")?.trim(),
+      thon: data.getAll("edition").join(", ") || "NUSATHON",
       page: location.href,
     };
 

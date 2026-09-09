@@ -189,3 +189,35 @@ nginx перезапускать не нужно — он читает файл�
 ```bash
 tail -50 /var/log/nginx/error.log
 ```
+
+---
+
+## Приём заявок: пропустить /api/ на Node
+
+Форма отправляется на `/api/thon`, а Node слушает на `127.0.0.1:3000`. Без
+этого блока nginx на этих доменах отдаёт только статику, и заявка уходит в
+никуда. Добавляется в оба конфига, внутрь `server { … }`, рядом с
+`location / { … }`:
+
+```nginx
+    # Приём заявок. Именно /api/ целиком, а не отдельный маршрут на каждый:
+    # иначе новый эндпоинт молча уйдёт в раздачу статики.
+    location /api/ {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+```
+
+`X-Forwarded-For` обязателен: без него сервер видит адрес самого nginx, и
+ограничение по частоте считает все заявки пришедшими с одного адреса.
+
+Применить:
+
+```bash
+sudo nginx -t && sudo systemctl reload nginx
+```
+
+Подробности про переменные окружения и порядок выкатки — в
+[APPLICATIONS.md](APPLICATIONS.md).

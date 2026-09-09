@@ -590,27 +590,38 @@ button, input, textarea, select { font: inherit; color: inherit; }
    заголовком он не должен. */
 
 .mod-anim {
-  position: absolute;
   /* Справа от текста и выше кнопки: описание занимает левую половину,
      кнопка — весь низ, свободен правый верх. */
   right: clamp(10px, 1.6vw, 26px);
   top: 30%;
   width: clamp(96px, 11vw, 152px);
+}
+/* Содержимое карточки поднимается над рисунком. Исключение — по общему
+   классу, а не по имени конкретной картинки: следующая иначе снова окажется
+   в потоке и растянет карточку. */
+.card2 > *:not(.card-art) { position: relative; z-index: 1; }
+
+/* Общее для любой графики в карточке: она лежит за текстом и не участвует в
+   раскладке. Отдельные правила задают только размер и место. */
+.card-art {
+  position: absolute;
   height: auto;
   pointer-events: none;
   z-index: 0;
 }
-/* Содержимое карточки поднимается над рисунком. */
-.card2 > *:not(.mod-anim) { position: relative; z-index: 1; }
 
 .mod__p {
   fill: rgba(198, 154, 101, 0.10);
   stroke: var(--wood);
   stroke-width: 1.4;
   stroke-linejoin: round;
-  opacity: 0;
+  opacity: 0;                        /* без курсора рисунка нет вовсе */
   transform-box: fill-box;
   transform-origin: 50% 100%;
+}
+/* Движение начинается под курсором и только там: постоянная анимация на
+   странице, где карточек несколько, тянет внимание к себе вместо кнопки. */
+.card2:hover .mod__p {
   animation: mod-piece 7.6s var(--ease) infinite;
   animation-delay: calc(var(--n) * 0.42s);
 }
@@ -627,8 +638,13 @@ button, input, textarea, select { font: inherit; color: inherit; }
 
 /* Просьбу о меньшем движении уважаем, но картинку не отбираем: модуль просто
    стоит собранным. */
+/* Просьбу о меньшем движении уважаем: под курсором объект просто проступает
+   целиком, без сборки. */
 @media (prefers-reduced-motion: reduce) {
-  .mod__p { animation: none; opacity: 0.6; transform: none; }
+  .card2:hover .mod__p,
+  .card2:hover .mdl__v,
+  .card2:hover .mdl__e,
+  .card2:hover .mdl__f { animation: none; opacity: 0.75; transform: none; stroke-dashoffset: 0; }
 }
 
 /* На узкой карточке описание занимает всю ширину, поэтому рисунок
@@ -640,6 +656,68 @@ button, input, textarea, select { font: inherit; color: inherit; }
     bottom: clamp(76px, 13vh, 116px);
     width: clamp(80px, 24vw, 112px);
   }
+}
+
+/* ── каркасная модель в карточке Printhon ────────────────────────────────── */
+
+/* Printhon — про проектирование моделей для принтера, а не про сам процесс
+   печати. Поэтому рисуется модель: вершины ставятся, рёбра прочерчиваются
+   между ними, и в готовый каркас проступают грани. Ровно то, что делает
+   участник, и ровно то, чего не показывала предыдущая версия. */
+
+.mdl-anim {
+  right: clamp(10px, 1.6vw, 26px);
+  top: 28%;
+  width: clamp(92px, 10.5vw, 146px);
+}
+
+.mdl__e { stroke: var(--wood); stroke-width: 1.2; stroke-linecap: round;
+          stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; }
+/* Рёбра на дальней стороне тоньше и глуше — иначе каркас плоский. */
+.mdl__e--back { stroke-width: 0.8; }
+.mdl__v { fill: var(--fg); opacity: 0; }
+.mdl__v--back { fill: var(--wood); r: 1.8; }
+.mdl__f { fill: rgba(198, 154, 101, 0.14); stroke: none; opacity: 0; }
+
+/* Порядок сборки: сначала вершины, потом рёбра, в конце грани. */
+.card2:hover .mdl__v {
+  animation: mdl-vertex 7s var(--ease) infinite;
+  animation-delay: calc(var(--n) * 0.055s);
+}
+.card2:hover .mdl__e {
+  animation: mdl-edge 7s var(--ease) infinite;
+  animation-delay: calc(0.7s + var(--n) * 0.045s);
+}
+.card2:hover .mdl__f {
+  animation: mdl-face 7s var(--ease) infinite;
+  animation-delay: calc(2.2s + var(--n) * 0.07s);
+}
+
+@keyframes mdl-vertex {
+  0%   { opacity: 0; }
+  4%   { opacity: 1; }
+  72%  { opacity: 1; }
+  84%  { opacity: 0; }
+  100% { opacity: 0; }
+}
+@keyframes mdl-edge {
+  0%   { opacity: 0; stroke-dashoffset: 1; }
+  3%   { opacity: 0.9; }
+  14%  { opacity: 0.9; stroke-dashoffset: 0; }
+  66%  { opacity: 0.9; stroke-dashoffset: 0; }
+  78%  { opacity: 0; stroke-dashoffset: 0; }
+  100% { opacity: 0; stroke-dashoffset: 1; }
+}
+@keyframes mdl-face {
+  0%   { opacity: 0; }
+  8%   { opacity: 1; }
+  56%  { opacity: 1; }
+  70%  { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+@media (max-width: 900px) {
+  .mdl-anim { top: auto; bottom: clamp(76px, 13vh, 116px); width: clamp(78px, 22vw, 104px); }
 }
 
 /* ── доска: два приглашения и открытые направления ───────────────────────── */
@@ -686,10 +764,10 @@ button, input, textarea, select { font: inherit; color: inherit; }
 }
 
 /* Знак семейства водяным знаком: даёт карточке глубину и не спорит с текстом. */
-.card2:has(.mod-anim)::after { content: none; }
+.card2:has(.card-art)::after { content: none; }
 /* Текст не должен дорастать до колонки с рисунком ни при какой длине и ни на
    какой ширине — иначе однажды его туда занесёт переводом или правкой. */
-.card2:has(.mod-anim) .card2__what {
+.card2:has(.card-art) .card2__what {
   max-width: min(34ch, calc(100% - clamp(90px, 13vw, 175px)));
 }
 .card2::after {
