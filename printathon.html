@@ -34,9 +34,11 @@
 }
 </script>
 </head>
-<body>
+<body class="screen">
 
-<header class="head wrap">
+<div class="stage">
+
+  <header class="head wrap">
   <a class="mark" href="./"><span class="mark__glyph" aria-hidden="true"></span><b>NUSATHON</b></a>
   <nav class="nav">
     <a href="./">Расписание</a>
@@ -45,9 +47,9 @@
   </nav>
 </header>
 
-<main>
+  <main class="one wrap">
 
-  <section class="hero wrap limit">
+    <section class="lede">
     <span class="eyebrow">Тон · родитель NUSATHON</span>
     <p class="hero__mark"><em style="font-style:normal;color:var(--wood)">PRINTA</em>THON</p>
     <h1 class="hero__title">Модель, которую <em>напечатают</em>.</h1>
@@ -68,78 +70,21 @@
     </p>
     <div class="hero__acts">
       <a class="btn btn--solid" href="./apply.html?thon=Printathon">Зарегистрироваться</a>
-      <a class="btn btn--ghost" href="./">Все тоны</a>
     </div>
   </section>
 
-  <div class="wrap"><dl class="strip limit">
+    <dl class="strip">
     <div><dt>Подготовка</dt><dd>с 24 сентября 2026</dd></div>
     <div><dt>Старт</dt><dd>8 октября 2026</dd></div>
     <div><dt>Где</dt><dd>Индонезия</dd></div>
-    <div><dt>Регистрация</dt><dd class="live">Открыта</dd></div>
-  </dl></div>
+      <div><dt>Регистрация</dt><dd class="live">Открыта</dd></div>
+    </dl>
 
-  <section class="sec wrap limit">
-    <div class="sec__head">
-      <span class="eyebrow">Как устроено</span>
-      <h2 class="sec__title">Подробности — <em>в день старта</em>.</h2>
-      <p class="sec__note">
-        Полное задание, размеры области печати, материал и ограничения
-        принтера открываются всем участникам одновременно, в момент старта.
-        До этого дня равные условия важнее подробностей.
-      </p>
-    </div>
+  </main>
 
-    <div class="rules">
-      <article class="rule">
-        <span class="rule__n">01</span>
-        <h3 class="rule__name">До 24 сентября</h3>
-        <p class="rule__body">
-          Регистрация. Нужно имя, чем вы занимаетесь и одна-две фразы о том,
-          что бы вы напечатали. Порога по портфолио нет, взноса нет.
-        </p>
-      </article>
-      <article class="rule">
-        <span class="rule__n">02</span>
-        <h3 class="rule__name">24 сентября — 8 октября</h3>
-        <p class="rule__body">
-          Подготовка. Зарегистрированные получают технические вводные о самом
-          принтере: что он умеет, чего не прощает и с каким материалом
-          работает. Команды собираются здесь же.
-        </p>
-      </article>
-      <article class="rule">
-        <span class="rule__n">03</span>
-        <h3 class="rule__name">8 октября</h3>
-        <p class="rule__body">
-          Старт. Задание открывается всем сразу. Дальше — работа, печать и
-          защита перед теми, кто может заказать результат.
-        </p>
-      </article>
-      <article class="rule">
-        <span class="rule__n">04</span>
-        <h3 class="rule__name">После</h3>
-        <p class="rule__body">
-          Printathon Awards, и попадание в Меридиан Гениев — общую базу тех, кто
-          прошёл отбор в любом из тонов. Оттуда брифы приходят раньше, чем
-          становятся публичными.
-        </p>
-      </article>
-    </div>
-  </section>
 
-  <section class="call wrap limit">
-    <h2>До старта <em>месяц</em>.</h2>
-    <p>
-      Регистрация занимает пару минут, а технические вводные приходят
-      участникам за две недели до задания.
-    </p>
-    <a class="btn btn--solid" href="./apply.html?thon=Printathon">Зарегистрироваться</a>
-  </section>
 
-</main>
-
-<footer class="foot wrap limit">
+  <footer class="foot wrap">
   <span>NUSATHON — Индонезия</span>
   <nav>
     <a href="./">Портал</a>
@@ -147,7 +92,9 @@
     <a href="https://modulthon.com" rel="noopener">Modulthon</a>
     <a href="mailto:info@buildinclt.com">info@buildinclt.com</a>
   </nav>
-</footer>
+  </footer>
+
+</div>
 
 <script src="./assets/app.js" defer></script>
 <script src="./assets/hive.js" defer></script>

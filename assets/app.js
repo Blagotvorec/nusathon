@@ -406,6 +406,9 @@ const THON_VARIANTS = {
   const lede = document.getElementById("apply-lede");
   const steps = document.getElementById("apply-steps");
 
+  // Метка на <body>: по ней страница получает облик своего тона.
+  document.body.classList.add("is-" + which.toLowerCase());
+
   if (title) title.innerHTML = variant.title;
   if (lede) lede.textContent = variant.lede;
   if (steps) steps.innerHTML = variant.steps.map((s) => `<li>${s}</li>`).join("");
