@@ -227,7 +227,14 @@ const APPLY_EMAIL = "info@buildinclt.com";
     return many;
   };
 
-  const timers = [];
+  const UNITS = [
+    { div: 86400, mod: null, words: ["день", "дня", "дней"] },
+    { div: 3600, mod: 24, words: ["час", "часа", "часов"] },
+    { div: 60, mod: 60, words: ["минута", "минуты", "минут"] },
+    { div: 1, mod: 60, words: ["секунда", "секунды", "секунд"] },
+  ];
+
+  const live = [];
 
   hosts.forEach((host) => {
     const target = Date.parse(host.dataset.deadline);
@@ -236,28 +243,62 @@ const APPLY_EMAIL = "info@buildinclt.com";
     // На странице события отсчёт и есть сам элемент; в карточке он внутри.
     const box = host.matches(".clock") ? host : host.querySelector(".clock, .card2__clock");
     if (!box) return;
-    const card = box.classList.contains("card2__clock");
-    const cell = (n, word) =>
-      card ? `<span class="card2__cell"><b>${n}</b><small>${word}</small></span>`
-           : `<span class="clock__cell"><b>${n}</b><small>${word}</small></span>`;
+    const cellClass = box.classList.contains("card2__clock") ? "card2__cell" : "clock__cell";
 
-    const tick = () => {
+    // Разметка строится один раз, дальше меняются только числа. Перерисовывать
+    // её раз в секунду — это мусор, мигание и потерянное выделение текста.
+    box.textContent = "";
+    const cells = UNITS.map(() => {
+      const wrap = document.createElement("span");
+      wrap.className = cellClass;
+      const value = document.createElement("b");
+      const label = document.createElement("small");
+      wrap.append(value, label);
+      box.append(wrap);
+      return { wrap, value, label };
+    });
+
+    live.push({ target, box, cells });
+  });
+
+  if (!live.length) return;
+
+  const paint = () => {
+    for (let i = live.length - 1; i >= 0; i -= 1) {
+      const { target, box, cells } = live[i];
       const left = target - Date.now();
-      if (left <= 0) {
-        box.innerHTML = '<span class="clock__now">Идёт сейчас</span>';
-        return true;
-      }
-      const d = Math.floor(left / 86400000);
-      const h = Math.floor((left % 86400000) / 3600000);
-      const m = Math.floor((left % 3600000) / 60000);
-      box.innerHTML =
-        cell(d, plural(d, "день", "дня", "дней")) +
-        cell(h, plural(h, "час", "часа", "часов")) +
-        (card ? "" : cell(m, plural(m, "минута", "минуты", "минут")));
-      return false;
-    };
 
-    if (!tick()) timers.push(setInterval(() => { if (tick()) timers.forEach(clearInterval); }, 30000));
+      if (left <= 0) {
+        box.textContent = "";
+        const now = document.createElement("span");
+        now.className = "clock__now";
+        now.textContent = "Идёт сейчас";
+        box.append(now);
+        live.splice(i, 1);                             // досчитал — больше не трогаем
+        continue;
+      }
+
+      const total = Math.floor(left / 1000);
+      UNITS.forEach((unit, n) => {
+        const v = unit.mod
+          ? Math.floor(total / unit.div) % unit.mod
+          : Math.floor(total / unit.div);
+        const { value, label } = cells[n];
+        const text = String(v);
+        if (value.textContent !== text) value.textContent = text;
+        const word = plural(v, ...unit.words);
+        if (label.textContent !== word) label.textContent = word;
+      });
+    }
+    if (!live.length) clearInterval(timer);
+  };
+
+  paint();
+  const timer = setInterval(paint, 1000);
+  // Вкладка в фоне тормозит таймеры, и по возвращении числа отстают.
+  // Перерисовываем сразу, как на страницу снова посмотрели.
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) paint();
   });
 })();
 
@@ -422,4 +463,90 @@ const THON_VARIANTS = {
     // невидимый элемент. Требование снимается вместе с самим вопросом.
     box.querySelectorAll("[required]").forEach((el) => (el.required = false));
   }
+})();
+
+/* ── пожелание по неоткрытому тону ───────────────────────────────────────── */
+
+/* Чип открытого направления ведёт не на форму заявки, а сюда: тон ещё не
+   запущен, и звать участвовать в том, чего нет, — обещание, которое нечем
+   выполнить. Вместо этого собираем пожелания; по ним и решается, какой тон
+   открывать следующим.
+
+   Уходит тем же маршрутом, что и заявки, но с пометкой типа — в группе они
+   должны различаться с первой строки. */
+
+(function wishes() {
+  const box = document.getElementById("wish");
+  const form = document.getElementById("wish-form");
+  if (!box || !form) return;
+
+  const nameOut = document.getElementById("wish-name");
+  const cta = document.getElementById("wish-open");
+  const status = document.getElementById("wish-status");
+  let thon = "";
+
+  document.addEventListener("click", (event) => {
+    const chip = event.target.closest("[data-wish]");
+    if (!chip) return;
+    thon = chip.dataset.wish;
+    if (nameOut) nameOut.textContent = thon;
+    // Каждое открытие начинается с чистого листа: прошлый ответ и прошлая
+    // ошибка к новому тону отношения не имеют.
+    form.hidden = true;
+    form.reset();
+    if (cta) cta.hidden = false;
+    if (status) { status.textContent = ""; delete status.dataset.error; }
+    if (typeof box.showModal === "function" && !box.open) box.showModal();
+  });
+
+  // Опросник раскрывается по нажатию: окно не должно встречать стеной полей
+  // того, кто просто ткнул в чип из любопытства.
+  cta?.addEventListener("click", () => {
+    form.hidden = false;
+    cta.hidden = true;
+    form.querySelector("input")?.focus();
+  });
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const tg = form.elements.telegram;
+    const wa = form.elements.whatsapp;
+    tg.setCustomValidity(
+      !tg.value.trim() && !wa.value.trim()
+        ? "Оставьте Telegram или WhatsApp — туда мы и ответим"
+        : ""
+    );
+    if (!form.reportValidity()) return;
+
+    const send = form.querySelector("[type=submit]");
+    send.disabled = true;
+    status.textContent = "Отправляем…";
+    delete status.dataset.error;
+
+    const wish = {
+      kind: "Пожелание об участии",
+      thon,
+      name: form.elements.name.value.trim(),
+      telegram: tg.value.trim(),
+      whatsapp: wa.value.trim(),
+      idea: form.elements.idea.value.trim(),
+      page: location.href,
+    };
+
+    try {
+      const res = await fetch(APPLY_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(wish),
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      form.hidden = true;
+      status.textContent = `Записали. Когда ${thon} откроется, напишем вам первым.`;
+    } catch {
+      send.disabled = false;
+      status.textContent = "Не отправилось. Попробуйте ещё раз или напишите на info@buildinclt.com.";
+      status.dataset.error = "";
+    }
+  });
 })();

@@ -49,7 +49,6 @@
     <nav class="nav">
       <a href="./library.html">Библиотека</a>
       <span class="langs"><a href="./" aria-current="page">RU</a>&nbsp;/&nbsp;<a href="./en/">EN</a></span>
-      <a class="btn btn--solid" href="./apply.html">Присоединиться</a>
     </nav>
   </header>
 
@@ -161,16 +160,63 @@
 
       <div class="open">
         <span class="open__label">Открытые направления</span>
-        <a class="chip chip--soon" href="./apply.html">Mebelthon · мебель</a>
-        <a class="chip" href="./apply.html">Agrothon · агро</a>
-        <a class="chip" href="./apply.html">Apithon · пчеловодство</a>
-        <a class="chip" href="./apply.html">Hackathon · код и ИТ</a>
+        <button class="chip chip--soon" type="button" data-wish="Mebelthon">Mebelthon · мебель</button>
+        <button class="chip" type="button" data-wish="Agrothon">Agrothon · агро</button>
+        <button class="chip" type="button" data-wish="Apithon">Apithon · пчеловодство</button>
+        <button class="chip" type="button" data-wish="Hackathon">Hackathon · код и ИТ</button>
         <a class="btn btn--ghost open__cta" href="./apply.html">Провести свой тон <span class="btn__arrow" aria-hidden="true">→</span></a>
       </div>
 
     </div>
 
   </main>
+
+
+  <!-- Окно открытого направления. Тон ещё не запущен, и честный ответ здесь —
+       не форма заявки, а сбор пожеланий: по ним и решится, какой тон открывать
+       следующим. Опросник спрятан до нажатия, чтобы окно не встречало стеной
+       полей того, кто просто ткнул в чип из любопытства. -->
+  <dialog class="wish" id="wish">
+    <div class="wish__body">
+      <span class="eyebrow">Тон в подготовке</span>
+      <h2 class="wish__title"><em id="wish-name">Тон</em> ещё не открыт.</h2>
+      <p class="wish__text">
+        Идёт подготовка: ищем родителя с настоящей задачей, площадку и бриф.
+        Оставьте пожелание — по ним мы и решаем, какой тон открывать следующим,
+        а вы узнаете о запуске первым.
+      </p>
+
+      <button class="btn btn--solid wish__cta" type="button" id="wish-open">
+        Оставить пожелание об участии <span class="btn__arrow" aria-hidden="true">→</span>
+      </button>
+
+      <form class="wish__form" id="wish-form" hidden novalidate>
+        <p class="field">
+          <label for="wish-who">Как вас зовут</label>
+          <input id="wish-who" name="name" type="text" autocomplete="name" required>
+        </p>
+        <div class="pair">
+          <p class="field">
+            <label for="wish-tg">Telegram</label>
+            <input id="wish-tg" name="telegram" type="text" placeholder="@ник">
+          </p>
+          <p class="field">
+            <label for="wish-wa">WhatsApp</label>
+            <input id="wish-wa" name="whatsapp" type="text" inputmode="tel" placeholder="+62…">
+          </p>
+        </div>
+        <p class="field">
+          <label for="wish-idea">Что хотели бы сделать и что уже умеете</label>
+          <textarea id="wish-idea" name="idea" rows="4" required
+            placeholder="Свободно, в двух-трёх фразах. Опыт важнее формулировок."></textarea>
+        </p>
+        <button class="btn btn--solid wish__send" type="submit">Отправить пожелание</button>
+        <p class="form__status" id="wish-status" role="status" aria-live="polite"></p>
+      </form>
+
+      <form method="dialog"><button class="btn btn--ghost wish__close" value="close">Закрыть</button></form>
+    </div>
+  </dialog>
 
   <footer class="foot wrap">
     <span>NUSATHON — Индонезия</span>
